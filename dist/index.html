@@ -1,0 +1,1821 @@
+<meta charset="utf-8">
+<title>What The Fusilli</title>
+<style>
+:root {
+  --bg: #fdf8ef;
+  --bg-alt: #f6ecdd;
+  --card: #fffdf8;
+  --ink: #2c241b;
+  --ink-soft: #6b5c4a;
+  --line: #e2d4bd;
+  --accent: #b4451f;
+  --accent-soft: #f0d9cd;
+  --gold: #c98a12;
+  --pasta-fill: #f2d49a;
+  --pasta-line: #a97d3a;
+  --pasta-hole: #e0b872;
+  --shadow: 0 1px 2px rgba(65, 45, 20, .06), 0 8px 24px rgba(65, 45, 20, .07);
+  --radius: 14px;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* Dark tokens are declared twice on purpose: once for viewers on the system
+   default (no data-theme stamp), once for an explicit dark choice. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #17140f;
+    --bg-alt: #1f1b14;
+    --card: #221d16;
+    --ink: #f0e7d8;
+    --ink-soft: #b0a08a;
+    --line: #3a3126;
+    --accent: #e8794c;
+    --accent-soft: #3a2419;
+    --gold: #e0ad4a;
+    --pasta-fill: #d8b46f;
+    --pasta-line: #8a6428;
+    --pasta-hole: #b8914c;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .35);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #17140f;
+  --bg-alt: #1f1b14;
+  --card: #221d16;
+  --ink: #f0e7d8;
+  --ink-soft: #b0a08a;
+  --line: #3a3126;
+  --accent: #e8794c;
+  --accent-soft: #3a2419;
+  --gold: #e0ad4a;
+  --pasta-fill: #d8b46f;
+  --pasta-line: #8a6428;
+  --pasta-hole: #b8914c;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .35);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); }
+
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---------- header ---------- */
+header.site {
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-alt);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(6px);
+}
+
+header.site .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 62px;
+}
+
+.brand {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--ink);
+  letter-spacing: -.01em;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.brand svg { width: 26px; height: 26px; }
+
+nav.site a {
+  text-decoration: none;
+  color: var(--ink-soft);
+  font-size: .92rem;
+  margin-left: 22px;
+  padding-bottom: 3px;
+  border-bottom: 2px solid transparent;
+}
+
+nav.site a:hover { color: var(--ink); }
+nav.site a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ---------- typography ---------- */
+h1, h2, h3 { font-family: var(--serif); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); }
+h2 { font-size: 1.5rem; }
+
+.lede { color: var(--ink-soft); font-size: 1.05rem; max-width: 46ch; }
+
+.eyebrow {
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* ---------- decider ---------- */
+.hero { padding: 44px 0 4px; text-align: center; }
+.hero .lede { margin: 14px auto 0; }
+
+.reroll { text-align: center; }
+.reroll .big-btn { margin-top: 0; }
+
+.mood {
+  text-align: center;
+  margin: 46px auto 72px;
+  padding-top: 34px;
+  border-top: 1px solid var(--line);
+  max-width: 780px;
+}
+
+.mood-label { color: var(--ink-soft); font-size: .95rem; margin: 0; }
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: 18px auto 0;
+  max-width: 720px;
+}
+
+.chip {
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink-soft);
+  border-radius: 999px;
+  padding: 7px 15px;
+  font-size: .85rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .14s ease;
+}
+
+.chip:hover { border-color: var(--accent); color: var(--ink); }
+.chip[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.big-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 26px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  padding: 15px 34px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform .12s ease, filter .12s ease;
+}
+
+.big-btn:hover { filter: brightness(1.07); transform: translateY(-1px); }
+.big-btn:active { transform: translateY(1px); }
+
+/* ---------- result card ---------- */
+.result {
+  margin: 26px auto 24px;
+  max-width: 780px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: none;
+}
+
+.result.show { display: block; animation: rise .35s ease both; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+.result-top {
+  display: flex;
+  gap: 26px;
+  align-items: center;
+  padding: 30px;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--line);
+}
+
+.result-top .art { flex: 0 0 116px; width: 116px; }
+.result-top h2 { font-size: 2rem; margin-bottom: 2px; }
+.pron { color: var(--ink-soft); font-style: italic; font-size: .95rem; }
+
+.result-body { padding: 26px 30px 30px; }
+
+.spinner-note { color: var(--ink-soft); font-size: .9rem; margin-top: 18px; min-height: 1.2em; }
+
+/* ---------- meta rows ---------- */
+.meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.meta div {
+  padding: 12px 14px;
+  box-shadow: 1px 0 0 var(--line), 0 1px 0 var(--line);
+}
+
+.meta dt {
+  font-size: .7rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 3px;
+}
+
+.meta dd { margin: 0; font-size: .95rem; font-weight: 500; }
+
+/* ---------- browse ---------- */
+.browse-head { padding: 44px 0 10px; }
+.browse-head h1 { margin-bottom: 10px; }
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  padding: 18px 0 26px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 30px;
+}
+
+.search {
+  flex: 1 1 220px;
+  min-width: 180px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 9px 16px;
+  font-family: inherit;
+  font-size: .92rem;
+}
+
+.search:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 16px 16px;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
+  display: block;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: var(--pasta-line);
+}
+
+.card .art { width: 88px; height: 88px; margin: 0 auto 10px; }
+.card h3 { font-size: 1.02rem; margin-bottom: 3px; }
+.card .sub { font-size: .78rem; color: var(--ink-soft); font-style: italic; }
+
+.cat-block { margin-bottom: 44px; }
+.cat-block header { margin-bottom: 16px; }
+.cat-block header p { margin: 4px 0 0; color: var(--ink-soft); font-size: .92rem; }
+
+.pasta-art { width: 100%; height: 100%; display: block; }
+.art { width: 100%; aspect-ratio: 1; }
+
+/* ---------- detail ---------- */
+.detail-head {
+  display: flex;
+  gap: 34px;
+  align-items: center;
+  padding: 44px 0 34px;
+  flex-wrap: wrap;
+}
+
+.detail-head .art { flex: 0 0 150px; width: 150px; }
+.detail-head .titles { flex: 1 1 320px; }
+.detail-head h1 { margin-bottom: 6px; }
+
+.tagline { color: var(--ink-soft); margin-top: 8px; }
+
+.badges { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+
+.badge {
+  font-size: .76rem;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid transparent;
+}
+
+.badge.plain { background: transparent; border-color: var(--line); color: var(--ink-soft); }
+
+.cols {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 34px;
+  padding-bottom: 60px;
+}
+
+@media (max-width: 720px) {
+  .cols { grid-template-columns: 1fr; }
+  .result-top { flex-direction: column; text-align: center; gap: 14px; }
+  .result-top .art { margin: 0 auto; }
+  .detail-head { gap: 20px; }
+  .detail-head .art { margin: 0 auto; }
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  margin-bottom: 18px;
+}
+
+.panel h2 { font-size: 1.15rem; margin-bottom: 10px; }
+.panel p { margin: 0 0 12px; }
+.panel p:last-child { margin-bottom: 0; }
+
+.diefact {
+  border-left: 3px solid var(--gold);
+  padding-left: 14px;
+  color: var(--ink-soft);
+  font-size: .93rem;
+}
+
+.fact {
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  font-family: var(--serif);
+  font-size: 1.02rem;
+}
+
+.backlink {
+  display: inline-block;
+  margin: 24px 0 0;
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-size: .9rem;
+}
+
+.backlink:hover { color: var(--accent); }
+
+footer.site {
+  border-top: 1px solid var(--line);
+  padding: 28px 0 40px;
+  color: var(--ink-soft);
+  font-size: .85rem;
+  text-align: center;
+}
+
+.empty { color: var(--ink-soft); padding: 40px 0; text-align: center; }
+
+/* extrusion diagram */
+.extrude-fig { width: 100%; max-width: 340px; margin: 6px auto 0; display: block; }
+
+/* accessibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+</style>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="#decide"><svg viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="var(--accent)" stroke-width="9" stroke-linecap="round"><path d="M22 12v76M50 12v76M78 12v76"/></g></svg> What The Fusilli</a>
+    <nav class="site">
+      <a href="#decide" data-route="decide">Decide</a>
+      <a href="#browse" data-route="browse">Browse</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="app"></main>
+
+<footer class="site">
+  <div class="wrap" id="foot"></div>
+</footer>
+
+<script>
+// Pasta shape database.
+// method: extruded | rolled | hand | stamped
+
+const PASTA = [
+  // ---------------- LONG STRANDS ----------------
+  {
+    id: 'spaghetti',
+    name: 'Spaghetti',
+    pron: 'spah-GET-tee',
+    meaning: '"Little strings" — from spago, twine.',
+    cat: 'long',
+    region: 'Naples, Campania',
+    icon: 'strand',
+    cook: '8–10 min',
+    method: 'extruded',
+    sauces: ['light', 'seafood', 'chunky', 'cheesy'],
+    best: 'Oil- and tomato-based sauces that coat rather than cling. Aglio e olio, cacio e pepe, carbonara, vongole.',
+    made: 'Semolina and water are kneaded into a crumbly dough, then forced under roughly 100 bar of pressure through a round die. The strands come out continuously and are cut to length by a rotating blade sitting right at the die face, then hung on rods to dry.',
+    die: 'A flat bronze plate drilled with hundreds of simple round holes, about 1.8 mm across.',
+    fact: 'Spaghetti was eaten with the hands in Naples well into the 1800s — the fork with a curved fourth tine was invented specifically so the king could eat it at the table.'
+  },
+  {
+    id: 'spaghettini',
+    name: 'Spaghettini',
+    pron: 'spah-get-TEE-nee',
+    meaning: '"Little spaghetti."',
+    cat: 'long',
+    region: 'Southern Italy',
+    icon: 'strand-thin',
+    cook: '5–7 min',
+    method: 'extruded',
+    sauces: ['light', 'seafood'],
+    best: 'Delicate sauces — lemon and oil, anchovy, light shellfish. Too thin to carry anything heavy.',
+    made: 'Identical process to spaghetti, just a narrower die hole. The thinner the strand, the faster it must be dried and the more fragile it is coming off the extruder.',
+    die: 'Round holes around 1.6 mm.',
+    fact: 'The number on Italian pasta boxes (No. 3, No. 5) is a die-size code, not a brand flourish.'
+  },
+  {
+    id: 'capellini',
+    name: 'Capellini / Angel Hair',
+    pron: 'kah-pel-LEE-nee',
+    meaning: '"Little hairs."',
+    cat: 'long',
+    region: 'Genoa & Naples',
+    icon: 'strand-fine',
+    cook: '2–4 min',
+    method: 'extruded',
+    sauces: ['light', 'brothy'],
+    best: 'Barely-there sauces, or dropped into broth. It overcooks in the time it takes to drain it.',
+    made: 'Extruded through the smallest practical round die. So fine that it is usually gathered into nests before drying, because loose strands would shatter.',
+    die: 'Round holes under 1 mm.',
+    fact: 'Angel hair keeps cooking hard from residual heat — pull it a full minute before you think you should.'
+  },
+  {
+    id: 'bucatini',
+    name: 'Bucatini',
+    pron: 'boo-kah-TEE-nee',
+    meaning: 'From buco, "hole."',
+    cat: 'long',
+    region: 'Lazio & Abruzzo',
+    icon: 'strand-hollow',
+    cook: '9–12 min',
+    method: 'extruded',
+    sauces: ['chunky', 'meaty', 'cheesy'],
+    best: 'Amatriciana, above all. Also cacio e pepe and rich tomato sauces that can run up the middle.',
+    made: 'The trick is in the die. Each hole has a tiny steel pin suspended in its center, held by thin bridges. Dough splits around the pin and fuses back together just past it, leaving a continuous channel down the strand.',
+    die: 'Round hole about 3 mm with a centered pin — the bridge marks sometimes leave faint lines on the finished strand.',
+    fact: 'Because the hole must not collapse, bucatini is extruded slower and dried gentler than spaghetti — which is part of why it costs more.'
+  },
+  {
+    id: 'linguine',
+    name: 'Linguine',
+    pron: 'lin-GWEE-neh',
+    meaning: '"Little tongues."',
+    cat: 'long',
+    region: 'Liguria',
+    icon: 'strand-flat',
+    cook: '9–11 min',
+    method: 'extruded',
+    sauces: ['seafood', 'pesto', 'light'],
+    best: 'Pesto Genovese and clam sauce. The flat face gives oil something to hold onto.',
+    made: 'Extruded through a flattened oval slot rather than a circle. The dough leaves the die already lens-shaped; no rolling or cutting is involved.',
+    die: 'Elliptical slots roughly 3 mm wide by 1.4 mm thick.',
+    fact: 'Linguine is the extruded answer to a ribbon — same silhouette as tagliatelle, completely different manufacture and bite.'
+  },
+  {
+    id: 'pici',
+    name: 'Pici',
+    pron: 'PEE-chee',
+    meaning: 'From appiciare, "to stick together."',
+    cat: 'long',
+    region: 'Siena, Tuscany',
+    icon: 'strand-thick',
+    cook: '6–9 min (fresh)',
+    method: 'hand',
+    sauces: ['chunky', 'meaty', 'cheesy'],
+    best: 'Aglione (fat garlic and tomato), wild boar ragù, or just breadcrumbs and oil.',
+    made: 'Not extruded at all. Flour-and-water dough is cut into strips and each one is rolled out under the palms into a fat, uneven strand. The irregularity is the point — every piece cooks slightly differently.',
+    die: 'None. Two hands and a wooden board.',
+    fact: 'Traditionally an eggless "poor" pasta — flour, water, a little oil. The thickness meant a small amount of flour fed a lot of people.'
+  },
+  {
+    id: 'bigoli',
+    name: 'Bigoli',
+    pron: 'BEE-go-lee',
+    meaning: 'From bigat, Venetian for "caterpillar."',
+    cat: 'long',
+    region: 'Veneto',
+    icon: 'strand-thick',
+    cook: '8–12 min',
+    method: 'extruded',
+    sauces: ['seafood', 'meaty'],
+    best: 'Bigoli in salsa — onions melted down with anchovies. Also duck ragù.',
+    made: 'Pressed through a bigolaro, a hand-cranked bronze press clamped to a bench. It is a true extruder, just human-powered: you turn a screw and thick rough strands push out the bottom.',
+    die: 'Bronze plate, holes around 3 mm, always bronze — the drag is what makes the surface grip.',
+    fact: 'Often made with whole wheat and sometimes duck egg, which is why bigoli is browner than most fresh pasta.'
+  },
+
+  // ---------------- RIBBONS ----------------
+  {
+    id: 'tagliatelle',
+    name: 'Tagliatelle',
+    pron: 'tal-yah-TEL-leh',
+    meaning: 'From tagliare, "to cut."',
+    cat: 'ribbon',
+    region: 'Emilia-Romagna',
+    icon: 'ribbon',
+    cook: '2–4 min (fresh)',
+    method: 'rolled',
+    sauces: ['meaty', 'creamy', 'chunky'],
+    best: 'Ragù alla Bolognese. This is the correct pasta for it, not spaghetti.',
+    made: 'Egg dough is laminated — passed repeatedly through rollers at decreasing gaps until it is a thin sheet — then loosely rolled and sliced into ribbons with a knife or a cutting roller.',
+    die: 'No die. Rollers and a blade.',
+    fact: 'The Bolognese chamber of commerce deposited a golden ribbon at the city hall in 1972 defining the legal width: 8 mm cooked, 7 mm raw.'
+  },
+  {
+    id: 'fettuccine',
+    name: 'Fettuccine',
+    pron: 'fet-too-CHEE-neh',
+    meaning: '"Little ribbons."',
+    cat: 'ribbon',
+    region: 'Rome & Tuscany',
+    icon: 'ribbon',
+    cook: '3–5 min (fresh)',
+    method: 'rolled',
+    sauces: ['creamy', 'cheesy', 'meaty'],
+    best: 'Butter and Parmigiano emulsified with pasta water. Cream sauces generally.',
+    made: 'Same lamination-and-cut method as tagliatelle, cut slightly wider and usually a touch thicker. Dried supermarket versions are extruded through a wide flat slot instead.',
+    die: 'Rollers for fresh; a rectangular slot die for dried.',
+    fact: 'Alfredo di Lelio invented his version in Rome in 1908 with no cream at all — just butter, cheese and starchy water.'
+  },
+  {
+    id: 'pappardelle',
+    name: 'Pappardelle',
+    pron: 'pap-par-DEL-leh',
+    meaning: 'From pappare, "to gobble."',
+    cat: 'ribbon',
+    region: 'Tuscany',
+    icon: 'ribbon-wide',
+    cook: '3–5 min (fresh)',
+    method: 'rolled',
+    sauces: ['meaty', 'chunky'],
+    best: 'Slow-braised game — wild boar, hare, beef shin. Big surface for a heavy sauce.',
+    made: 'Rolled sheet cut into broad straps two to three centimetres wide, often with a fluted wheel that leaves a wavy edge.',
+    die: 'No die. Sheet and a crimping cutter.',
+    fact: 'The wavy edge is not decoration — the ruffles trap fragments of meat that a straight edge would let slide off.'
+  },
+  {
+    id: 'mafaldine',
+    name: 'Mafaldine / Reginette',
+    pron: 'mah-fal-DEE-neh',
+    meaning: 'Named for Princess Mafalda of Savoy.',
+    cat: 'ribbon',
+    region: 'Naples',
+    icon: 'ribbon-ruffle',
+    cook: '8–10 min',
+    method: 'extruded',
+    sauces: ['creamy', 'chunky', 'meaty'],
+    best: 'Ricotta-based sauces, Neapolitan ragù, anything that can settle into the frills.',
+    made: 'Extruded through a wide slot whose long edges are cut into a repeating wave. The dough emerges as a flat band already ruffled on both sides.',
+    die: 'Rectangular slot about 12 mm wide with scalloped edges.',
+    fact: 'Made as a tribute to the Italian princess — the ruffled edge is meant to suggest a crown.'
+  },
+  {
+    id: 'lasagne',
+    name: 'Lasagne',
+    pron: 'lah-ZAHN-yeh',
+    meaning: 'From Greek lasanon, "cooking pot."',
+    cat: 'ribbon',
+    region: 'Emilia-Romagna',
+    icon: 'sheet',
+    cook: '2 min (fresh) or bake',
+    method: 'rolled',
+    sauces: ['baked', 'meaty', 'creamy'],
+    best: 'Layering, obviously. Ragù and besciamella.',
+    made: 'Rolled sheets cut to rectangles. Dried commercial sheets are extruded flat through a very wide slot, then cut and dried on trays rather than hung.',
+    die: 'A wide flat slot, or none at all for fresh.',
+    fact: 'One of the oldest pasta shapes in Europe — flat baked sheets are documented in Italy before forks were common.'
+  },
+
+  // ---------------- TUBES ----------------
+  {
+    id: 'penne-rigate',
+    name: 'Penne Rigate',
+    pron: 'PEN-neh ree-GAH-teh',
+    meaning: '"Ridged quills."',
+    cat: 'tube',
+    region: 'Liguria / Campania',
+    icon: 'penne',
+    cook: '10–12 min',
+    method: 'extruded',
+    sauces: ['chunky', 'creamy', 'baked', 'meaty'],
+    best: 'Arrabbiata, vodka sauce, anything chunky enough to lodge inside the tube.',
+    made: 'A tube is extruded through a ring-shaped die opening — an outer circle with a center pin. Grooves in the die wall cut the ridges. The signature diagonal ends come from a blade angled at roughly 45° to the tube as it exits.',
+    die: 'Annular opening about 8 mm outer diameter, with longitudinal grooves and an angled cutter.',
+    fact: 'Giovanni Battista Capurro patented the diagonal cutting machine in 1865 in Liguria. Before that, cutting tubes on the bias by hand crushed them.'
+  },
+  {
+    id: 'penne-lisce',
+    name: 'Penne Lisce',
+    pron: 'PEN-neh LEE-sheh',
+    meaning: '"Smooth quills."',
+    cat: 'tube',
+    region: 'Campania',
+    icon: 'penne-smooth',
+    cook: '10–12 min',
+    method: 'extruded',
+    sauces: ['creamy', 'light'],
+    best: 'Silky, emulsified sauces that don\'t need gripping. Divisive — many Italians consider it inferior.',
+    made: 'Same as penne rigate but with a smooth die wall. Extrudes faster and dries more evenly, which is why factories like it.',
+    die: 'Annular opening, no grooves, angled cutter.',
+    fact: 'Smooth pasta and Teflon dies go together: both give a glossy surface that sauce slides off. Bronze dies plus ridges are the opposite philosophy.'
+  },
+  {
+    id: 'rigatoni',
+    name: 'Rigatoni',
+    pron: 'ree-gah-TOH-nee',
+    meaning: 'From rigato, "ridged."',
+    cat: 'tube',
+    region: 'Rome & Southern Italy',
+    icon: 'rigatoni',
+    cook: '11–13 min',
+    method: 'extruded',
+    sauces: ['meaty', 'chunky', 'baked', 'cheesy'],
+    best: 'Ragù, carbonara alternatives, pasta al forno. The wide bore swallows sauce.',
+    made: 'Extruded through a large annular die with deep grooves, then cut square across rather than on the diagonal.',
+    die: 'Annular opening 12–15 mm outer diameter, deeply grooved, straight cutter.',
+    fact: 'Rigatoni holds its shape in the oven better than almost any other tube — the ridges add structural rigidity, not just grip.'
+  },
+  {
+    id: 'paccheri',
+    name: 'Paccheri',
+    pron: 'PAK-keh-ree',
+    meaning: 'From Neapolitan paccharia, "slaps."',
+    cat: 'tube',
+    region: 'Campania & Calabria',
+    icon: 'paccheri',
+    cook: '12–15 min',
+    method: 'extruded',
+    sauces: ['seafood', 'chunky', 'baked'],
+    best: 'Seafood, or stuffed and baked standing upright. They collapse dramatically on the plate.',
+    made: 'A very large smooth tube extruded through a wide annular die. The walls are thin relative to the diameter, so extrusion pressure and drying must be carefully controlled or they crack.',
+    die: 'Annular opening around 25–30 mm outer diameter.',
+    fact: 'The name refers to the slapping noise they make when they hit the plate and flatten.'
+  },
+  {
+    id: 'ziti',
+    name: 'Ziti',
+    pron: 'ZEE-tee',
+    meaning: 'From zita, "bride" — wedding pasta.',
+    cat: 'tube',
+    region: 'Campania & Sicily',
+    icon: 'ziti',
+    cook: '11–13 min',
+    method: 'extruded',
+    sauces: ['baked', 'meaty', 'cheesy'],
+    best: 'Baked ziti. Neapolitan ragù that has cooked for six hours.',
+    made: 'Extruded as long smooth tubes. Traditionally sold as long rods that were snapped by hand before cooking, not pre-cut.',
+    die: 'Annular opening about 10 mm, smooth walls.',
+    fact: 'Breaking the ziti by hand at the table was part of Sunday lunch in Naples — the pieces were meant to be uneven.'
+  },
+  {
+    id: 'macaroni',
+    name: 'Maccheroni / Elbows',
+    pron: 'mah-keh-ROH-nee',
+    meaning: 'Possibly from maccare, "to crush."',
+    cat: 'tube',
+    region: 'Southern Italy',
+    icon: 'elbow',
+    cook: '7–9 min',
+    method: 'extruded',
+    sauces: ['cheesy', 'baked', 'creamy'],
+    best: 'Mac and cheese. Cold pasta salads. Soups.',
+    made: 'The curve is an accident of physics, engineered on purpose: one side of the die opening is slightly restricted, so dough exits faster on one side than the other and the tube bends as it leaves.',
+    die: 'Annular opening with an asymmetric gap that biases flow to one side.',
+    fact: 'Change the asymmetry and you change the curve — the same principle produces chifferi, gomiti and lumache.'
+  },
+  {
+    id: 'ditalini',
+    name: 'Ditalini',
+    pron: 'dee-tah-LEE-nee',
+    meaning: '"Little thimbles."',
+    cat: 'tube',
+    region: 'Sicily & Campania',
+    icon: 'ditalini',
+    cook: '8–10 min',
+    method: 'extruded',
+    sauces: ['brothy', 'chunky'],
+    best: 'Pasta e fagioli, minestrone, pasta e ceci. Soup pasta first and foremost.',
+    made: 'Small tubes extruded through a compact annular die and chopped very short by a fast blade — the cutter runs at high speed relative to the extrusion rate.',
+    die: 'Annular opening about 5 mm, cut every few millimetres.',
+    fact: 'Cutter speed alone separates ditalini from ziti. Same die family, different blade rhythm.'
+  },
+  {
+    id: 'mezze-maniche',
+    name: 'Mezze Maniche',
+    pron: 'MET-seh MAH-nee-keh',
+    meaning: '"Half sleeves."',
+    cat: 'tube',
+    region: 'Rome',
+    icon: 'mezze-maniche',
+    cook: '10–12 min',
+    method: 'extruded',
+    sauces: ['meaty', 'cheesy', 'chunky'],
+    best: 'Carbonara, gricia, amatriciana — the Roman canon.',
+    made: 'Essentially short rigatoni: wide grooved tube, straight cut, but only about half the length.',
+    die: 'Annular opening 12 mm, grooved, fast straight cutter.',
+    fact: 'Many Roman trattorias prefer this to spaghetti for carbonara because the egg sauce collects inside each tube.'
+  },
+  {
+    id: 'garganelli',
+    name: 'Garganelli',
+    pron: 'gar-gah-NEL-lee',
+    meaning: 'From garganel, dialect for "chicken gullet."',
+    cat: 'tube',
+    region: 'Emilia-Romagna',
+    icon: 'garganelli',
+    cook: '3–5 min (fresh)',
+    method: 'hand',
+    sauces: ['creamy', 'meaty'],
+    best: 'Prosciutto and pea cream sauce, or a light ragù.',
+    made: 'Not extruded. Squares of egg dough are rolled diagonally around a thin dowel and pressed over a ridged wooden comb (a pettine), which grooves the outside and seals the seam.',
+    die: 'None — a dowel and a ridged comb.',
+    fact: 'The diagonal roll means the ridges run at an angle, which is how you can tell real garganelli from a penne impostor.'
+  },
+  {
+    id: 'cannelloni',
+    name: 'Cannelloni',
+    pron: 'kah-neh-LOH-nee',
+    meaning: '"Large reeds."',
+    cat: 'tube',
+    region: 'Emilia-Romagna & Piedmont',
+    icon: 'cannelloni',
+    cook: 'Bake 25–35 min',
+    method: 'rolled',
+    sauces: ['baked', 'creamy', 'meaty'],
+    best: 'Stuffed with ricotta and spinach or veal, blanketed in besciamella, baked.',
+    made: 'Traditionally a flat sheet of egg pasta rolled around filling. Dried boxed versions are extruded as very wide smooth tubes and cut into lengths.',
+    die: 'Annular opening around 25 mm for dried; no die for fresh.',
+    fact: 'Fresh sheets give a better result than dried tubes — they hydrate from the sauce instead of fighting it.'
+  },
+
+  // ---------------- SHAPES ----------------
+  {
+    id: 'fusilli',
+    name: 'Fusilli',
+    pron: 'foo-ZEE-lee',
+    meaning: 'From fuso, "spindle."',
+    cat: 'shape',
+    region: 'Campania & Molise',
+    icon: 'fusilli',
+    cook: '10–12 min',
+    method: 'extruded',
+    sauces: ['pesto', 'chunky', 'creamy'],
+    best: 'Pesto, chunky vegetable sauces, pasta salad. The grooves are a trap for everything.',
+    made: 'The die has an offset insert that forces the dough to rotate as it is pushed out — the strand twists itself into a helix on the way through. No mechanical twisting happens after extrusion.',
+    die: 'A slot with a helical or offset obstruction that induces spin.',
+    fact: 'Hand-made fusilli is the older method: a strip of dough wrapped around a thin iron rod called a ferretto, then slid off.'
+  },
+  {
+    id: 'rotini',
+    name: 'Rotini',
+    pron: 'roh-TEE-nee',
+    meaning: '"Little wheels" / spirals.',
+    cat: 'shape',
+    region: 'Southern Italy / Italian-American',
+    icon: 'rotini',
+    cook: '8–10 min',
+    method: 'extruded',
+    sauces: ['chunky', 'creamy', 'baked'],
+    best: 'Pasta salad, baked casseroles, thick tomato sauces.',
+    made: 'Same principle as fusilli but a tighter, more corkscrewed helix from a more aggressive die insert.',
+    die: 'Twisted slot die, tighter pitch than fusilli.',
+    fact: 'Rotini and fusilli are used interchangeably in most of the world; in Italy the distinction is the tightness of the spiral.'
+  },
+  {
+    id: 'cavatappi',
+    name: 'Cavatappi',
+    pron: 'kah-vah-TAP-pee',
+    meaning: '"Corkscrews."',
+    cat: 'shape',
+    region: 'Southern Italy',
+    icon: 'cavatappi',
+    cook: '8–10 min',
+    method: 'extruded',
+    sauces: ['cheesy', 'creamy', 'baked'],
+    best: 'Grown-up mac and cheese. Sauce goes inside and outside at once.',
+    made: 'A hollow tube extruded through a ring die that is simultaneously spun, so the tube coils as it emerges. It is one of the harder shapes to make — the tube must curl without collapsing.',
+    die: 'Annular opening with rotational bias, ridged.',
+    fact: 'Cavatappi is the only common shape that is both a tube and a spiral, which is why it holds more sauce per gram than almost anything else.'
+  },
+  {
+    id: 'farfalle',
+    name: 'Farfalle',
+    pron: 'far-FAL-leh',
+    meaning: '"Butterflies."',
+    cat: 'shape',
+    region: 'Lombardy & Emilia-Romagna',
+    icon: 'farfalle',
+    cook: '10–12 min',
+    method: 'stamped',
+    sauces: ['creamy', 'light', 'chunky'],
+    best: 'Cream and pea sauces, salmon, cold salads.',
+    made: 'Cannot be extruded. A sheet of dough is cut into rectangles with a fluted wheel, then a machine pinches each rectangle at the center. The pinch is a mechanical crimp, not a mold.',
+    die: 'None — a crimping cutter and a pinching mechanism.',
+    fact: 'The double thickness at the pinch cooks slower than the wings, so farfalle is never uniformly al dente. That is inherent to the shape.'
+  },
+  {
+    id: 'conchiglie',
+    name: 'Conchiglie',
+    pron: 'kon-KEEL-yeh',
+    meaning: '"Shells."',
+    cat: 'shape',
+    region: 'Campania',
+    icon: 'shell',
+    cook: '10–12 min',
+    method: 'extruded',
+    sauces: ['chunky', 'creamy', 'baked'],
+    best: 'Anything with small pieces — sausage, peas, ricotta. Large ones get stuffed and baked.',
+    made: 'Extruded as a curved ridged strip through a crescent-shaped die slot, then cut. Residual stress in the dough makes the strip curl into a cup as it leaves the die.',
+    die: 'Crescent slot, ridged on the outer face.',
+    fact: 'The curl is not stamped in. It happens because the outer edge of the crescent moves faster than the inner edge, exactly like the elbow macaroni trick.'
+  },
+  {
+    id: 'lumache',
+    name: 'Lumache',
+    pron: 'loo-MAH-keh',
+    meaning: '"Snails."',
+    cat: 'shape',
+    region: 'Southern Italy',
+    icon: 'lumache',
+    cook: '11–13 min',
+    method: 'extruded',
+    sauces: ['chunky', 'cheesy', 'baked'],
+    best: 'Thick ragù, cheese sauces, baked dishes. The opening scoops.',
+    made: 'A ridged tube extruded with a strong one-sided flow bias so it curls almost into a full circle, then cut short.',
+    die: 'Annular opening with heavy asymmetry and grooves.',
+    fact: 'Considered by many Roman cooks the ideal carbonara shape — better than any straight tube at catching egg.'
+  },
+  {
+    id: 'orecchiette',
+    name: 'Orecchiette',
+    pron: 'oh-rek-KYET-teh',
+    meaning: '"Little ears."',
+    cat: 'shape',
+    region: 'Puglia',
+    icon: 'ear',
+    cook: '10–13 min',
+    method: 'hand',
+    sauces: ['chunky', 'light', 'meaty'],
+    best: 'Cime di rapa with anchovy and garlic. Also sausage and broccoli.',
+    made: 'Never extruded traditionally. A rope of semolina dough is cut into discs, each one dragged across a wooden board with a knife to curl it, then flipped over a thumb. The dragged side is rough, the thumb side smooth.',
+    die: 'None — a knife, a board and a thumb.',
+    fact: 'On Via dell\'Arco Basso in Bari, women still make and sell them on the street. Industrial versions press dough into molds, which is why they never quite match.'
+  },
+  {
+    id: 'trofie',
+    name: 'Trofie',
+    pron: 'TROH-fyeh',
+    meaning: 'From Ligurian strofinare, "to rub."',
+    cat: 'shape',
+    region: 'Liguria',
+    icon: 'twist',
+    cook: '5–8 min',
+    method: 'hand',
+    sauces: ['pesto', 'light'],
+    best: 'Pesto Genovese with potato and green beans. That is the dish.',
+    made: 'A small piece of dough is rolled under the side of the palm on a board so it stretches and twists at the same time, producing a short tapered spiral with a seam down it.',
+    die: 'None — palm and board.',
+    fact: 'Made with flour and water only, no egg. Ligurian pesto tradition treats egg pasta as too rich for basil.'
+  },
+  {
+    id: 'gemelli',
+    name: 'Gemelli',
+    pron: 'jeh-MEL-lee',
+    meaning: '"Twins."',
+    cat: 'shape',
+    region: 'Southern Italy',
+    icon: 'twist',
+    cook: '9–11 min',
+    method: 'extruded',
+    sauces: ['chunky', 'pesto', 'creamy'],
+    best: 'Pesto, chunky vegetable sauces, salads.',
+    made: 'Despite the name, it is a single strand. The die extrudes one solid rod that twists back on itself as it exits, creating the illusion of two strands twisted together.',
+    die: 'A single slot with a rotational insert.',
+    fact: 'Cut a gemelli in half and the cross-section proves it — one piece of dough, not two.'
+  },
+  {
+    id: 'casarecce',
+    name: 'Casarecce',
+    pron: 'kah-sah-RETCH-eh',
+    meaning: '"Homemade."',
+    cat: 'shape',
+    region: 'Sicily',
+    icon: 'casarecce',
+    cook: '9–11 min',
+    method: 'extruded',
+    sauces: ['chunky', 'pesto', 'meaty'],
+    best: 'Pesto alla Trapanese, aubergine and tomato, sausage ragù.',
+    made: 'Extruded as a narrow S-shaped strip that rolls in on itself along its length, forming a loose scroll with a groove down the middle.',
+    die: 'A narrow S or hook-profile slot.',
+    fact: 'The open channel down the length behaves like a very short tube — it catches oil and small solids that a solid twist would shed.'
+  },
+  {
+    id: 'strozzapreti',
+    name: 'Strozzapreti',
+    pron: 'strot-sah-PREH-tee',
+    meaning: '"Priest stranglers."',
+    cat: 'shape',
+    region: 'Emilia-Romagna & Umbria',
+    icon: 'twist',
+    cook: '8–10 min',
+    method: 'hand',
+    sauces: ['meaty', 'chunky'],
+    best: 'Sausage ragù, tomato and pancetta, hearty vegetable sauces.',
+    made: 'A strip of dough is rolled between the palms with a quick rubbing motion so it twists irregularly, then snapped off. Commercial versions extrude an approximation.',
+    die: 'None traditionally; a twisted flat slot for dried versions.',
+    fact: 'Several competing stories about the name; the least gruesome is that housewives made them while cursing greedy clergy.'
+  },
+  {
+    id: 'cavatelli',
+    name: 'Cavatelli',
+    pron: 'kah-vah-TEL-lee',
+    meaning: 'From cavare, "to hollow out."',
+    cat: 'shape',
+    region: 'Molise & Puglia',
+    icon: 'cavatelli',
+    cook: '8–12 min',
+    method: 'hand',
+    sauces: ['chunky', 'meaty', 'light'],
+    best: 'Broccoli rabe and sausage, ricotta and tomato, beans.',
+    made: 'Small pieces of semolina dough are pressed and dragged with two fingers or a knife across a board, hollowing each one into a little canoe with a rough dragged surface.',
+    die: 'None — fingers and a board, or a hand-cranked cavatelli roller.',
+    fact: 'Cavatelli and orecchiette come from the same dough and the same gesture; the difference is whether you flip it over your thumb at the end.'
+  },
+  {
+    id: 'malloreddus',
+    name: 'Malloreddus',
+    pron: 'mah-loh-REH-doos',
+    meaning: 'Sardinian for "little bulls."',
+    cat: 'shape',
+    region: 'Sardinia',
+    icon: 'malloreddus',
+    cook: '10–13 min',
+    method: 'hand',
+    sauces: ['meaty', 'chunky'],
+    best: 'Alla Campidanese — sausage, tomato and saffron.',
+    made: 'Semolina dough, often tinted with saffron, is rolled into small pieces and pressed against a ridged basket or grooved board so one face picks up deep parallel lines.',
+    die: 'None — a ridged board (ciuliri) or basket.',
+    fact: 'Also called gnocchetti sardi. The saffron in the dough is traditional, not a modern flourish.'
+  },
+  {
+    id: 'radiatori',
+    name: 'Radiatori',
+    pron: 'rah-dee-ah-TOH-ree',
+    meaning: '"Radiators."',
+    cat: 'shape',
+    region: '20th-century Italy',
+    icon: 'radiator',
+    cook: '9–11 min',
+    method: 'extruded',
+    sauces: ['chunky', 'creamy', 'baked'],
+    best: 'Thick sauces and pasta salads. Enormous surface area.',
+    made: 'One of the most complex dies in production: a compact profile with deep radial fins. Extrusion is slow because the dough has to fill every fin evenly without tearing.',
+    die: 'Finned radial profile, cut very short.',
+    fact: 'Reportedly designed in the 1960s by an industrial designer, inspired by car radiators — one of the few shapes with a documented modern origin.'
+  },
+  {
+    id: 'rotelle',
+    name: 'Rotelle / Wagon Wheels',
+    pron: 'roh-TEL-leh',
+    meaning: '"Little wheels."',
+    cat: 'shape',
+    region: 'Modern Italy',
+    icon: 'wheel',
+    cook: '9–11 min',
+    method: 'extruded',
+    sauces: ['chunky', 'baked', 'creamy'],
+    best: 'Chunky sauces, kids\' dinners, salads.',
+    made: 'Extruded through a die shaped like a wheel — an outer ring, a hub, and spokes between them — then sliced thin.',
+    die: 'Wheel profile with a hub and radial spokes.',
+    fact: 'The spokes are the weak point: extrude too fast and they tear, which is why rotelle boxes always contain some broken wheels.'
+  },
+  {
+    id: 'campanelle',
+    name: 'Campanelle',
+    pron: 'kam-pah-NEL-leh',
+    meaning: '"Little bells."',
+    cat: 'shape',
+    region: 'Modern Italy',
+    icon: 'campanelle',
+    cook: '9–11 min',
+    method: 'extruded',
+    sauces: ['creamy', 'chunky', 'cheesy'],
+    best: 'Cream sauces and meat sauces — the bell fills up.',
+    made: 'A ruffled strip is extruded and then curled into a cone as it exits, using the same differential-flow trick that curves macaroni, applied to a frilled profile.',
+    die: 'Frilled crescent profile with flow bias.',
+    fact: 'Also sold as gigli, "lilies" — same shape, different marketing.'
+  },
+  {
+    id: 'gnocchi-sardi',
+    name: 'Gnocchi (potato)',
+    pron: 'NYOK-kee',
+    meaning: 'From nocchio, "knot in wood."',
+    cat: 'shape',
+    region: 'Northern Italy',
+    icon: 'gnocchi',
+    cook: '2–3 min',
+    method: 'hand',
+    sauces: ['creamy', 'cheesy', 'meaty', 'light'],
+    best: 'Butter and sage, gorgonzola, simple tomato. They are rich enough on their own.',
+    made: 'Not really pasta in the extruded sense. Cooked riced potato is bound with a minimum of flour and egg, rolled into ropes, cut, and rolled down a ridged paddle or fork tines to groove them.',
+    die: 'None — a gnocchi board or fork.',
+    fact: 'Every gram of extra flour makes them tougher. Bake the potatoes instead of boiling to keep water out of the dough.'
+  },
+
+  // ---------------- SMALL / SOUP ----------------
+  {
+    id: 'orzo',
+    name: 'Orzo / Risoni',
+    pron: 'OR-tsoh',
+    meaning: '"Barley," which it resembles.',
+    cat: 'small',
+    region: 'Southern Italy & Greece',
+    icon: 'grain',
+    cook: '7–9 min',
+    method: 'extruded',
+    sauces: ['brothy', 'light', 'baked'],
+    best: 'Soups, pilaf-style dishes, cold salads with lemon and herbs.',
+    made: 'Extruded through a small oval die and cut extremely short by a high-speed blade, then tumbled so the ends round off slightly during drying.',
+    die: 'Small pointed-oval opening, roughly 2 × 5 mm.',
+    fact: 'It behaves like rice because of the shape, not the ingredients — it is ordinary semolina pasta.'
+  },
+  {
+    id: 'stelline',
+    name: 'Stelline',
+    pron: 'stel-LEE-neh',
+    meaning: '"Little stars."',
+    cat: 'small',
+    region: 'Italy, widely',
+    icon: 'star',
+    cook: '5–6 min',
+    method: 'extruded',
+    sauces: ['brothy'],
+    best: 'Chicken broth. Children\'s soup. Nothing else, really.',
+    made: 'Extruded through a die cut with tiny star silhouettes, each with a center hole, and shaved off almost immediately by the cutter.',
+    die: 'Star profile about 5 mm across with a center hole.',
+    fact: 'The center hole exists so they cook evenly — without it the middle stays raw while the points go to mush.'
+  },
+  {
+    id: 'acini-di-pepe',
+    name: 'Acini di Pepe',
+    pron: 'ah-CHEE-nee dee PEH-peh',
+    meaning: '"Peppercorns."',
+    cat: 'small',
+    region: 'Southern Italy',
+    icon: 'dots',
+    cook: '5–7 min',
+    method: 'extruded',
+    sauces: ['brothy'],
+    best: 'Italian wedding soup, brothy soups, the dessert salad called frog eye.',
+    made: 'Extruded through the smallest round die and cut essentially flush with the die face, so each piece is a bead barely longer than it is wide.',
+    die: 'Round holes about 1.5 mm, cutter running at maximum speed.',
+    fact: 'The fastest cutter speed in the pasta factory. The blade is effectively scraping the die.'
+  },
+  {
+    id: 'anelli',
+    name: 'Anelli',
+    pron: 'ah-NEL-lee',
+    meaning: '"Rings."',
+    cat: 'small',
+    region: 'Sicily',
+    icon: 'ring',
+    cook: '7–9 min',
+    method: 'extruded',
+    sauces: ['brothy', 'baked'],
+    best: 'Soups, and Sicilian anelletti al forno — baked with ragù, peas and caciocavallo.',
+    made: 'Extruded as a thin tube and cut so short that each piece is a ring rather than a tube.',
+    die: 'Small annular opening, cut nearly flush.',
+    fact: 'Anelletti al forno is the classic Palermo picnic dish — it slices like a cake once it cools.'
+  },
+  {
+    id: 'fregola',
+    name: 'Fregola',
+    pron: 'FREH-goh-lah',
+    meaning: 'From fregare, "to rub."',
+    cat: 'small',
+    region: 'Sardinia',
+    icon: 'dots',
+    cook: '10–14 min',
+    method: 'hand',
+    sauces: ['brothy', 'seafood'],
+    best: 'Clams and tomato, or a saffron broth.',
+    made: 'Not extruded. Semolina is sprinkled with salted water in a wide bowl and rubbed by hand until it clumps into irregular beads, which are then sieved by size and toasted in an oven.',
+    die: 'None — a bowl, water and hands.',
+    fact: 'The toasting is what makes it: fregola is nutty and browned before it ever hits water, unlike any other pasta.'
+  },
+
+  // ---------------- FILLED ----------------
+  {
+    id: 'ravioli',
+    name: 'Ravioli',
+    pron: 'rah-vee-OH-lee',
+    meaning: 'Possibly from rabiole, "leftovers."',
+    cat: 'filled',
+    region: 'All over Italy',
+    icon: 'ravioli',
+    cook: '3–5 min',
+    method: 'stamped',
+    sauces: ['light', 'creamy', 'cheesy'],
+    best: 'Brown butter and sage, or a light tomato. Never drown filled pasta.',
+    made: 'Two sheets of rolled egg dough with filling piped between them, pressed to expel air, then cut and sealed with a fluted stamp or wheel. Machines do the same thing with rollers and a rotary die.',
+    die: 'A stamping die, not an extrusion die.',
+    fact: 'Trapped air is the enemy — a bubble expands in boiling water and bursts the seal.'
+  },
+  {
+    id: 'tortellini',
+    name: 'Tortellini',
+    pron: 'tor-tel-LEE-nee',
+    meaning: 'From torta, "little cake."',
+    cat: 'filled',
+    region: 'Bologna & Modena',
+    icon: 'tortellini',
+    cook: '3–4 min',
+    method: 'stamped',
+    sauces: ['brothy', 'creamy'],
+    best: 'In capon broth. In Bologna, serving them in cream is close to heresy.',
+    made: 'Small squares of thin egg dough are filled, folded into a triangle, then wrapped around a fingertip and the two corners pressed together. Every one is folded individually.',
+    die: 'None — a cutter for the squares, then hands.',
+    fact: 'The official Bolognese filling is registered: pork loin, prosciutto, mortadella, Parmigiano, egg and nutmeg.'
+  },
+  {
+    id: 'agnolotti',
+    name: 'Agnolotti del Plin',
+    pron: 'ah-nyoh-LOT-tee del PLEEN',
+    meaning: 'Plin means "pinch" in Piedmontese.',
+    cat: 'filled',
+    region: 'Piedmont',
+    icon: 'agnolotti',
+    cook: '2–4 min',
+    method: 'stamped',
+    sauces: ['light', 'meaty'],
+    best: 'Roast meat juices, or butter. Sometimes served on a napkin with nothing at all.',
+    made: 'Filling is piped along a single strip of very thin dough, the dough is folded over, and each parcel is pinched shut between finger and thumb before being cut apart with a wheel.',
+    die: 'None — a piping bag, fingers and a cutting wheel.',
+    fact: 'Single sheet, not two — which is why they are thinner and more delicate than ravioli.'
+  },
+  {
+    id: 'cappelletti',
+    name: 'Cappelletti',
+    pron: 'kap-pel-LET-tee',
+    meaning: '"Little hats."',
+    cat: 'filled',
+    region: 'Romagna & Le Marche',
+    icon: 'tortellini',
+    cook: '3–4 min',
+    method: 'stamped',
+    sauces: ['brothy', 'creamy'],
+    best: 'Broth at Christmas. Occasionally butter and Parmigiano.',
+    made: 'Like tortellini but starting from a square rather than a round, folded corner to corner and then wrapped, giving a peaked crown instead of a smooth ring.',
+    die: 'None — square cutter and hands.',
+    fact: 'Cappelletti are typically filled with cheese, tortellini with meat. That, and the starting shape, is the whole difference.'
+  },
+  {
+    id: 'mezzelune',
+    name: 'Mezzelune',
+    pron: 'met-seh-LOO-neh',
+    meaning: '"Half moons."',
+    cat: 'filled',
+    region: 'Trentino-Alto Adige',
+    icon: 'mezzelune',
+    cook: '3–5 min',
+    method: 'stamped',
+    sauces: ['creamy', 'light'],
+    best: 'Melted butter with poppy seeds, or sage. Common with beet or potato fillings.',
+    made: 'Rounds are cut from a single sheet, filled off-center, folded over and sealed by hand or with a crimped press.',
+    die: 'A round cutter and a crimping press.',
+    fact: 'The Alpine versions are often filled with sauerkraut, beetroot or smoked ricotta — a very different tradition from the south.'
+  }
+];
+
+const CATEGORIES = {
+  long: { label: 'Long Strands', blurb: 'Extruded rods and rounds — the classic dried pasta.' },
+  ribbon: { label: 'Ribbons & Sheets', blurb: 'Flat pasta, usually rolled and cut rather than extruded.' },
+  tube: { label: 'Tubes', blurb: 'Hollow shapes made with a pin or ring in the die.' },
+  shape: { label: 'Shaped & Twisted', blurb: 'Spirals, shells and curls — the hardest dies to engineer.' },
+  small: { label: 'Small & Soup', blurb: 'Cut nearly flush at the die face. Made for broth.' },
+  filled: { label: 'Filled', blurb: 'Never extruded. Sheets, filling and a seal.' }
+};
+
+const SAUCE_TAGS = {
+  chunky: 'Chunky tomato & veg',
+  creamy: 'Creamy',
+  cheesy: 'Cheesy',
+  meaty: 'Slow-cooked meat ragù',
+  light: 'Light oil, garlic, lemon',
+  seafood: 'Seafood',
+  pesto: 'Pesto',
+  brothy: 'Soup & broth',
+  baked: 'Baked in the oven'
+};
+
+const METHODS = {
+  extruded: 'Extruded through a die',
+  rolled: 'Rolled & cut from a sheet',
+  hand: 'Hand-formed',
+  stamped: 'Filled & sealed'
+};
+
+// SVG illustrations for each pasta shape. viewBox is always 0 0 100 100.
+// Colours come from CSS vars so they adapt to light/dark.
+
+const F = 'var(--pasta-fill)';
+const L = 'var(--pasta-line)';
+
+function helix(cx, top, bottom, w, turns) {
+  const step = (bottom - top) / turns;
+  let d = '';
+  for (let i = 0; i < turns; i++) {
+    const y = top + i * step;
+    d += `M${cx - w} ${y} C${cx - w} ${y + step * 0.55} ${cx + w} ${y + step * 0.45} ${cx + w} ${y + step} `;
+  }
+  return d;
+}
+
+// A filled ribbon built from two wave edges.
+function band(y, h, amp) {
+  let top = `M0 ${y} `;
+  for (let x = 0; x < 100; x += 50) {
+    top += `Q${x + 12.5} ${y - amp} ${x + 25} ${y} Q${x + 37.5} ${y + amp} ${x + 50} ${y} `;
+  }
+  let bot = '';
+  for (let x = 100; x > 0; x -= 50) {
+    bot += `Q${x - 12.5} ${y + h + amp} ${x - 25} ${y + h} Q${x - 37.5} ${y + h - amp} ${x - 50} ${y + h} `;
+  }
+  return `<path d="${top} L100 ${y + h} ${bot} Z" fill="${F}" stroke="${L}" stroke-width="1.6" stroke-linejoin="round"/>`;
+}
+
+function tube(x, y, w, h, ridges, tilt) {
+  const rx = w / 2;
+  const ry = w * 0.22;
+  let g = `<g transform="rotate(${tilt || 0} ${x + rx} ${y + h / 2})">`;
+  g += `<path d="M${x} ${y} L${x} ${y + h} A${rx} ${ry} 0 0 0 ${x + w} ${y + h} L${x + w} ${y} Z" fill="${F}" stroke="${L}" stroke-width="1.6"/>`;
+  if (ridges) {
+    for (let i = 1; i < 4; i++) {
+      const px = x + (w / 4) * i;
+      g += `<line x1="${px}" y1="${y + 3}" x2="${px}" y2="${y + h - 2}" stroke="${L}" stroke-width="1" opacity=".55"/>`;
+    }
+  }
+  g += `<ellipse cx="${x + rx}" cy="${y}" rx="${rx}" ry="${ry}" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.6"/>`;
+  g += `</g>`;
+  return g;
+}
+
+function rod(x, w, top, bottom, hollow) {
+  let s = `<rect x="${x}" y="${top}" width="${w}" height="${bottom - top}" rx="${Math.min(w / 2, 3)}" fill="${F}" stroke="${L}" stroke-width="1.3"/>`;
+  if (hollow) {
+    s += `<rect x="${x + w * 0.32}" y="${top}" width="${w * 0.36}" height="${bottom - top}" fill="var(--pasta-hole)" stroke="${L}" stroke-width=".9"/>`;
+    s += `<ellipse cx="${x + w / 2}" cy="${top + 2}" rx="${w / 2}" ry="${w * 0.32}" fill="${F}" stroke="${L}" stroke-width="1.2"/>`;
+    s += `<ellipse cx="${x + w / 2}" cy="${top + 2}" rx="${w * 0.18}" ry="${w * 0.12}" fill="var(--pasta-hole)" stroke="${L}" stroke-width=".9"/>`;
+  }
+  return s;
+}
+
+// A quill: cylinder with a mouth cut on the bias.
+function quill(ridged) {
+  const ridges = ridged
+    ? [1, 2, 3, 4].map(i => {
+        const x = 28 + 8.8 * i;
+        const top = 22 + ((x - 28) / 44) * 16;
+        return `<line x1="${x}" y1="${top + 4}" x2="${x}" y2="${80 - Math.abs(i - 2.5) * 1.2}" stroke="${L}" stroke-width="1" opacity=".45"/>`;
+      }).join('')
+    : '';
+  return `<g transform="rotate(-22 50 52)">
+    <path d="M28 22 L28 78 A22 7 0 0 0 72 78 L72 38 Z" fill="${F}" stroke="${L}" stroke-width="1.7"/>
+    ${ridges}
+    <ellipse cx="50" cy="30" rx="23.4" ry="7" transform="rotate(20 50 30)" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.7"/>
+  </g>`;
+}
+
+// A ribbon with scalloped edges down both long sides.
+function frilledBand(y, h) {
+  let d = `M4 ${y} `;
+  for (let x = 4; x < 96; x += 8) d += `A4 4 0 0 1 ${x + 8} ${y} `;
+  d += `L96 ${y + h} `;
+  for (let x = 96; x > 4; x -= 8) d += `A4 4 0 0 1 ${x - 8} ${y + h} `;
+  return `<path d="${d} Z" fill="${F}" stroke="${L}" stroke-width="1.5"/>`;
+}
+
+const ICONS = {
+  strand: () => [24, 47, 70].map(x => rod(x, 6, 8, 92)).join(''),
+  'strand-fine': () => [22, 34, 46, 58, 70].map(x => rod(x, 2.5, 8, 92)).join(''),
+  'strand-thin': () => [24, 40, 56, 72].map(x => rod(x, 4, 8, 92)).join(''),
+  'strand-hollow': () => [20, 45, 70].map(x => rod(x, 11, 10, 92, true)).join(''),
+  'strand-flat': () => [18, 42, 66].map(x => rod(x, 11, 8, 92)).join(''),
+  'strand-thick': () => [26, 56].map(x => rod(x, 17, 8, 92)).join(''),
+
+  ribbon: () => band(24, 12, 7) + band(58, 12, 7),
+  'ribbon-wide': () => band(16, 24, 9) + band(58, 24, 9),
+  'ribbon-ruffle': () => frilledBand(24, 18) + frilledBand(62, 18),
+
+  sheet: () => `<path d="M14 12 Q22 20 14 28 Q22 36 14 44 Q22 52 14 60 Q22 68 14 76 Q22 84 14 88
+      L86 88 Q78 80 86 72 Q78 64 86 56 Q78 48 86 40 Q78 32 86 24 Q78 16 86 12 Z"
+      fill="${F}" stroke="${L}" stroke-width="1.8" stroke-linejoin="round"/>`,
+
+  penne: () => quill(true),
+  'penne-smooth': () => quill(false),
+
+  rigatoni: () => tube(28, 20, 44, 60, true, -8),
+  ziti: () => tube(34, 10, 32, 80, false, 6),
+  paccheri: () => tube(16, 30, 68, 42, false, -4),
+  cannelloni: () => tube(24, 12, 52, 76, false, 0),
+  ditalini: () => tube(14, 34, 22, 22, true, -10) + tube(42, 46, 22, 22, true, 8) + tube(68, 28, 22, 22, true, -4),
+  'mezze-maniche': () => tube(28, 30, 44, 40, true, 0),
+
+  garganelli: () => `<g transform="rotate(-30 50 50)">
+      <path d="M34 24 L34 76 A16 6 0 0 0 66 76 L66 24 Z" fill="${F}" stroke="${L}" stroke-width="1.7"/>
+      ${[0, 1, 2, 3].map(i => `<line x1="${34}" y1="${34 + i * 13}" x2="${66}" y2="${26 + i * 13}" stroke="${L}" stroke-width="1" opacity=".5"/>`).join('')}
+      <ellipse cx="50" cy="24" rx="16" ry="6" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.6"/>
+    </g>`,
+
+  elbow: () => `<path d="M26 82 A34 34 0 1 1 78 62" fill="none" stroke="${F}" stroke-width="22" stroke-linecap="round"/>
+    <path d="M26 82 A34 34 0 1 1 78 62" fill="none" stroke="${L}" stroke-width="24" stroke-linecap="round" opacity=".18"/>
+    <path d="M26 82 A34 34 0 1 1 78 62" fill="none" stroke="${F}" stroke-width="19" stroke-linecap="round"/>
+    <ellipse cx="26" cy="82" rx="10" ry="7" transform="rotate(-14 26 82)" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.6"/>`,
+
+  lumache: () => `<path d="M50 84 A30 30 0 1 1 74 72" fill="none" stroke="${F}" stroke-width="26" stroke-linecap="round"/>
+    ${[0, 1, 2, 3, 4].map(i => `<line x1="${50 + 26 * Math.cos((i * 50 + 130) * Math.PI / 180)}" y1="${50 + 26 * Math.sin((i * 50 + 130) * Math.PI / 180)}" x2="${50 + 38 * Math.cos((i * 50 + 130) * Math.PI / 180)}" y2="${50 + 38 * Math.sin((i * 50 + 130) * Math.PI / 180)}" stroke="${L}" stroke-width="1.2" opacity=".5"/>`).join('')}
+    <ellipse cx="50" cy="84" rx="12" ry="8" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.6"/>`,
+
+  fusilli: () => `<path d="${helix(50, 12, 88, 20, 4)}" fill="none" stroke="${F}" stroke-width="13" stroke-linecap="round"/>
+    <path d="${helix(50, 12, 88, 20, 4)}" fill="none" stroke="${L}" stroke-width="1.4" opacity=".7"/>`,
+  rotini: () => `<path d="${helix(50, 10, 90, 22, 6)}" fill="none" stroke="${F}" stroke-width="11" stroke-linecap="round"/>
+    <path d="${helix(50, 10, 90, 22, 6)}" fill="none" stroke="${L}" stroke-width="1.3" opacity=".7"/>`,
+  twist: () => `<path d="${helix(50, 14, 86, 13, 4)}" fill="none" stroke="${F}" stroke-width="15" stroke-linecap="round"/>
+    <path d="${helix(50, 14, 86, 13, 4)}" fill="none" stroke="${L}" stroke-width="1.3" opacity=".6"/>`,
+
+  cavatappi: () => `<path d="${helix(50, 14, 86, 24, 3)}" fill="none" stroke="${F}" stroke-width="17" stroke-linecap="round"/>
+    <path d="${helix(50, 14, 86, 24, 3)}" fill="none" stroke="var(--pasta-hole)" stroke-width="6" stroke-linecap="round" opacity=".8"/>
+    <path d="${helix(50, 14, 86, 24, 3)}" fill="none" stroke="${L}" stroke-width="1.2" opacity=".5"/>`,
+
+  casarecce: () => `<path d="M38 12 C14 34 84 44 62 62 C46 76 34 78 34 90" fill="none" stroke="${F}" stroke-width="16" stroke-linecap="round"/>
+    <path d="M38 12 C14 34 84 44 62 62 C46 76 34 78 34 90" fill="none" stroke="${L}" stroke-width="1.3" opacity=".6"/>`,
+
+  farfalle: () => `<path d="M8 20 Q30 26 44 44 Q30 62 8 80 Q16 50 8 20 Z" fill="${F}" stroke="${L}" stroke-width="1.7" stroke-linejoin="round"/>
+    <path d="M92 20 Q70 26 56 44 Q70 62 92 80 Q84 50 92 20 Z" fill="${F}" stroke="${L}" stroke-width="1.7" stroke-linejoin="round"/>
+    <path d="M44 44 Q50 50 56 44 L56 56 Q50 50 44 56 Z" fill="${F}" stroke="${L}" stroke-width="1.7" stroke-linejoin="round"/>
+    ${[0, 1, 2].map(i => `<line x1="46" y1="${44 + i * 4}" x2="54" y2="${44 + i * 4}" stroke="${L}" stroke-width="1" opacity=".5"/>`).join('')}`,
+
+  shell: () => {
+    // Scallop: hinge at the bottom, frilled fan opening upward.
+    let top = 'M14 42 ';
+    for (let x = 14; x < 86; x += 12) top += `A6 6 0 0 1 ${x + 12} 42 `;
+    return `<path d="${top} C88 66 74 84 50 88 C26 84 12 66 14 42 Z"
+        fill="${F}" stroke="${L}" stroke-width="1.7" stroke-linejoin="round"/>
+      ${[-30, -18, -6, 6, 18, 30].map(k =>
+        `<path d="M50 86 Q${50 + k * 0.7} 62 ${50 + k} 44" fill="none" stroke="${L}" stroke-width="1.2" opacity=".5"/>`).join('')}
+      <ellipse cx="50" cy="84" rx="11" ry="6" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.4"/>`;
+  },
+
+  ear: () => `<circle cx="50" cy="50" r="34" fill="${F}" stroke="${L}" stroke-width="1.8"/>
+    <circle cx="50" cy="50" r="23" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.4" opacity=".9"/>
+    ${[0, 1, 2, 3, 4, 5].map(i => `<line x1="${50 + 24 * Math.cos(i * 1.05)}" y1="${50 + 24 * Math.sin(i * 1.05)}" x2="${50 + 33 * Math.cos(i * 1.05)}" y2="${50 + 33 * Math.sin(i * 1.05)}" stroke="${L}" stroke-width="1.1" opacity=".45"/>`).join('')}`,
+
+  cavatelli: () => [[26, 26], [62, 40], [30, 68]].map(([x, y], i) =>
+    `<g transform="rotate(${i * 30 - 20} ${x} ${y})">
+      <path d="M${x - 20} ${y} Q${x} ${y - 16} ${x + 20} ${y} Q${x} ${y + 16} ${x - 20} ${y} Z" fill="${F}" stroke="${L}" stroke-width="1.6"/>
+      <path d="M${x - 13} ${y - 1} Q${x} ${y - 9} ${x + 13} ${y - 1} Q${x} ${y + 7} ${x - 13} ${y - 1} Z" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.1"/>
+    </g>`).join(''),
+
+  malloreddus: () => [[30, 30], [66, 46], [34, 72]].map(([x, y], i) =>
+    `<g transform="rotate(${i * 25 - 15} ${x} ${y})">
+      <ellipse cx="${x}" cy="${y}" rx="21" ry="11" fill="${F}" stroke="${L}" stroke-width="1.6"/>
+      ${[-12, -6, 0, 6, 12].map(o => `<line x1="${x + o}" y1="${y - 8}" x2="${x + o}" y2="${y + 8}" stroke="${L}" stroke-width="1" opacity=".5"/>`).join('')}
+    </g>`).join(''),
+
+  gnocchi: () => [[30, 32], [68, 44], [38, 72]].map(([x, y], i) =>
+    `<g transform="rotate(${i * 20 - 10} ${x} ${y})">
+      <ellipse cx="${x}" cy="${y}" rx="19" ry="13" fill="${F}" stroke="${L}" stroke-width="1.6"/>
+      ${[-9, -3, 3, 9].map(o => `<path d="M${x + o} ${y - 9} Q${x + o + 2} ${y} ${x + o} ${y + 9}" fill="none" stroke="${L}" stroke-width="1" opacity=".5"/>`).join('')}
+    </g>`).join(''),
+
+  radiator: () => `<rect x="30" y="20" width="40" height="60" rx="8" fill="${F}" stroke="${L}" stroke-width="1.7"/>
+    ${[0, 1, 2, 3, 4].map(i => {
+      const y = 26 + i * 12;
+      return `<path d="M30 ${y} L14 ${y - 5} L14 ${y + 5} Z" fill="${F}" stroke="${L}" stroke-width="1.4"/>
+              <path d="M70 ${y} L86 ${y - 5} L86 ${y + 5} Z" fill="${F}" stroke="${L}" stroke-width="1.4"/>`;
+    }).join('')}
+    <ellipse cx="50" cy="20" rx="20" ry="6" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.5"/>`,
+
+  wheel: () => `<circle cx="50" cy="50" r="36" fill="${F}" stroke="${L}" stroke-width="1.8"/>
+    <circle cx="50" cy="50" r="26" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.5"/>
+    <circle cx="50" cy="50" r="9" fill="${F}" stroke="${L}" stroke-width="1.5"/>
+    ${Array.from({ length: 8 }, (_, i) => {
+      const a = (i * 45 * Math.PI) / 180;
+      return `<line x1="${50 + 9 * Math.cos(a)}" y1="${50 + 9 * Math.sin(a)}" x2="${50 + 26 * Math.cos(a)}" y2="${50 + 26 * Math.sin(a)}" stroke="${L}" stroke-width="4" stroke-linecap="round"/>`;
+    }).join('')}`,
+
+  campanelle: () => `<path d="M34 52 Q30 74 38 86 Q50 92 62 86 Q70 74 66 52 Z" fill="${F}" stroke="${L}" stroke-width="1.7"/>
+    <path d="M14 40 Q22 22 31 38 Q40 20 50 36 Q60 20 69 38 Q78 22 86 40 Q70 60 50 60 Q30 60 14 40 Z"
+      fill="${F}" stroke="${L}" stroke-width="1.7" stroke-linejoin="round"/>
+    <ellipse cx="50" cy="46" rx="16" ry="7" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.5"/>`,
+
+  grain: () => [[26, 28, -25], [66, 36, 20], [34, 62, 10], [70, 74, -15]].map(([x, y, r]) =>
+    `<ellipse cx="${x}" cy="${y}" rx="17" ry="7" transform="rotate(${r} ${x} ${y})" fill="${F}" stroke="${L}" stroke-width="1.5"/>`).join(''),
+
+  star: () => [[32, 32, 20], [68, 42, 22], [44, 72, 18]].map(([cx, cy, r]) => {
+    let pts = '';
+    for (let i = 0; i < 10; i++) {
+      const rad = i % 2 ? r * 0.45 : r;
+      const a = (i * 36 - 90) * Math.PI / 180;
+      pts += `${cx + rad * Math.cos(a)},${cy + rad * Math.sin(a)} `;
+    }
+    return `<polygon points="${pts}" fill="${F}" stroke="${L}" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="${cx}" cy="${cy}" r="${r * 0.18}" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1"/>`;
+  }).join(''),
+
+  dots: () => [[28, 30, 9], [58, 24, 7], [76, 44, 8], [40, 52, 8], [66, 68, 9], [30, 74, 7], [50, 84, 6]]
+    .map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${F}" stroke="${L}" stroke-width="1.4"/>`).join(''),
+
+  ring: () => [[32, 34, 18], [68, 48, 16], [40, 72, 15]].map(([x, y, r]) =>
+    `<circle cx="${x}" cy="${y}" r="${r}" fill="${F}" stroke="${L}" stroke-width="1.6"/>
+     <circle cx="${x}" cy="${y}" r="${r * 0.5}" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.4"/>`).join(''),
+
+  ravioli: () => `<path d="M18 18 L82 18 L82 82 L18 82 Z" fill="${F}" stroke="${L}" stroke-width="1.7"/>
+    ${Array.from({ length: 32 }, (_, i) => {
+      const per = i / 32;
+      let x, y;
+      if (per < 0.25) { x = 18 + per * 4 * 64; y = 18; }
+      else if (per < 0.5) { x = 82; y = 18 + (per - 0.25) * 4 * 64; }
+      else if (per < 0.75) { x = 82 - (per - 0.5) * 4 * 64; y = 82; }
+      else { x = 18; y = 82 - (per - 0.75) * 4 * 64; }
+      return `<circle cx="${x}" cy="${y}" r="2.6" fill="${F}" stroke="${L}" stroke-width="1.1"/>`;
+    }).join('')}
+    <ellipse cx="50" cy="50" rx="19" ry="15" fill="var(--pasta-hole)" opacity=".8"/>`,
+
+  tortellini: () => `<circle cx="50" cy="56" r="30" fill="${F}" stroke="${L}" stroke-width="1.7"/>
+    <circle cx="50" cy="56" r="12" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.4"/>
+    <path d="M26 40 Q50 4 74 40 Q50 30 26 40 Z" fill="${F}" stroke="${L}" stroke-width="1.7" stroke-linejoin="round"/>
+    <path d="M34 62 Q50 74 66 62" fill="none" stroke="${L}" stroke-width="1.2" opacity=".5"/>`,
+
+  agnolotti: () => [[30, 32], [66, 50], [34, 74]].map(([x, y], i) =>
+    `<g transform="rotate(${i * 18 - 12} ${x} ${y})">
+      <rect x="${x - 22}" y="${y - 12}" width="44" height="24" rx="5" fill="${F}" stroke="${L}" stroke-width="1.6"/>
+      <path d="M${x - 14} ${y - 12} L${x - 14} ${y + 12} M${x + 14} ${y - 12} L${x + 14} ${y + 12}" stroke="${L}" stroke-width="1.2" opacity=".55"/>
+    </g>`).join(''),
+
+  mezzelune: () => `<path d="M16 56 A34 34 0 0 1 84 56 Z" fill="${F}" stroke="${L}" stroke-width="1.7"/>
+    ${Array.from({ length: 9 }, (_, i) => `<circle cx="${20 + i * 7.5}" cy="56" r="3" fill="${F}" stroke="${L}" stroke-width="1.1"/>`).join('')}
+    <path d="M30 46 A22 22 0 0 1 70 46" fill="none" stroke="${L}" stroke-width="1.2" opacity=".5"/>`
+};
+
+function pastaSVG(type, cls) {
+  const draw = ICONS[type] || ICONS.strand;
+  return `<svg class="${cls || 'pasta-art'}" viewBox="0 0 100 100" role="img" aria-hidden="true">${draw()}</svg>`;
+}
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+function metaRow(p) {
+  return `<dl class="meta">
+    <div><dt>Family</dt><dd>${CATEGORIES[p.cat].label}</dd></div>
+    <div><dt>Cook time</dt><dd>${esc(p.cook)}</dd></div>
+    <div><dt>Home region</dt><dd>${esc(p.region)}</dd></div>
+    <div><dt>How it's made</dt><dd>${METHODS[p.method]}</dd></div>
+  </dl>`;
+}
+
+/* ---------------- decider ---------------- */
+
+function initDecider() {
+  const wrap = document.getElementById('sauceFilters');
+  const chosen = new Set();
+
+  wrap.innerHTML = Object.entries(SAUCE_TAGS)
+    .map(([k, v]) => `<button class="chip" data-tag="${k}" aria-pressed="false">${esc(v)}</button>`)
+    .join('');
+
+  wrap.addEventListener('click', e => {
+    const btn = e.target.closest('.chip');
+    if (!btn) return;
+    const tag = btn.dataset.tag;
+    if (chosen.has(tag)) { chosen.delete(tag); btn.setAttribute('aria-pressed', 'false'); }
+    else { chosen.add(tag); btn.setAttribute('aria-pressed', 'true'); }
+    updateNote();
+  });
+
+  const note = document.getElementById('note');
+  const result = document.getElementById('result');
+  let last = null;
+
+  function pool() {
+    if (!chosen.size) return PASTA;
+    return PASTA.filter(p => [...chosen].some(t => p.sauces.includes(t)));
+  }
+
+  function updateNote() {
+    const n = pool().length;
+    note.textContent = chosen.size
+      ? `${n} shape${n === 1 ? '' : 's'} match what you're after.`
+      : '';
+    pick(false);
+  }
+
+  function pick(scroll) {
+    let list = pool();
+    if (list.length > 1 && last) {
+      const without = list.filter(p => p.id !== last);
+      if (without.length) list = without;
+    }
+    const p = list[Math.floor(Math.random() * list.length)];
+    if (!p) { result.innerHTML = ''; result.classList.remove('show'); return; }
+    last = p.id;
+
+    result.classList.remove('show');
+    result.innerHTML = `
+      <div class="result-top">
+        <div class="art">${pastaSVG(p.icon)}</div>
+        <div>
+          <p class="eyebrow">Today you're having</p>
+          <h2>${esc(p.name)}</h2>
+          <p class="pron">${esc(p.pron)} · ${esc(p.meaning)}</p>
+        </div>
+      </div>
+      <div class="result-body">
+        ${metaRow(p)}
+        <p><strong>Serve it with:</strong> ${esc(p.best)}</p>
+        <p style="margin-top:18px">
+          <a href="#shape/${p.id}">Read how ${esc(p.name.split(' /')[0])} is made →</a>
+        </p>
+      </div>`;
+    void result.offsetWidth;
+    result.classList.add('show');
+    if (scroll) result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.getElementById('spin').addEventListener('click', () => pick(true));
+  pick(false);
+}
+
+/* ---------------- browse ---------------- */
+
+function initBrowse() {
+  const filters = document.getElementById('catFilters');
+  const out = document.getElementById('results');
+  const search = document.getElementById('search');
+  let cat = 'all';
+
+  filters.innerHTML = `<button class="chip" data-cat="all" aria-pressed="true">All</button>` +
+    Object.entries(CATEGORIES).map(([k, v]) =>
+      `<button class="chip" data-cat="${k}" aria-pressed="false">${esc(v.label)}</button>`).join('');
+
+  filters.addEventListener('click', e => {
+    const btn = e.target.closest('.chip');
+    if (!btn) return;
+    cat = btn.dataset.cat;
+    filters.querySelectorAll('.chip').forEach(c =>
+      c.setAttribute('aria-pressed', String(c === btn)));
+    render();
+  });
+
+  search.addEventListener('input', render);
+
+  function card(p) {
+    return `<a class="card" href="#shape/${p.id}">
+      <div class="art">${pastaSVG(p.icon)}</div>
+      <h3>${esc(p.name)}</h3>
+      <p class="sub">${esc(p.pron)}</p>
+    </a>`;
+  }
+
+  function render() {
+    const q = search.value.trim().toLowerCase();
+    let list = PASTA;
+    if (cat !== 'all') list = list.filter(p => p.cat === cat);
+    if (q) {
+      list = list.filter(p =>
+        [p.name, p.pron, p.region, p.meaning, p.best, p.made, p.die,
+          CATEGORIES[p.cat].label, METHODS[p.method],
+          ...p.sauces.map(s => SAUCE_TAGS[s])
+        ].join(' ').toLowerCase().includes(q));
+    }
+
+    if (!list.length) {
+      out.innerHTML = `<p class="empty">No shapes match that. Try “tube”, “Sicily”, or “pesto”.</p>`;
+      return;
+    }
+
+    const groups = Object.keys(CATEGORIES)
+      .map(k => [k, list.filter(p => p.cat === k)])
+      .filter(([, items]) => items.length);
+
+    out.innerHTML = groups.map(([k, items]) => `
+      <section class="cat-block">
+        <header>
+          <h2>${esc(CATEGORIES[k].label)}</h2>
+          <p>${esc(CATEGORIES[k].blurb)}</p>
+        </header>
+        <div class="grid">${items.map(card).join('')}</div>
+      </section>`).join('');
+  }
+
+  render();
+}
+
+/* ---------------- detail ---------------- */
+
+function extruderDiagram() {
+  return `<svg class="extrude-fig" viewBox="0 0 340 130" role="img" aria-label="Diagram of a pasta extruder">
+    <rect x="10" y="34" width="200" height="62" rx="10" fill="var(--bg-alt)" stroke="var(--line)" stroke-width="2"/>
+    <path d="M30 46 q14 19 0 38 M56 46 q14 19 0 38 M82 46 q14 19 0 38 M108 46 q14 19 0 38 M134 46 q14 19 0 38 M160 46 q14 19 0 38"
+          fill="none" stroke="var(--pasta-line)" stroke-width="3" opacity=".55"/>
+    <line x1="20" y1="65" x2="190" y2="65" stroke="var(--pasta-line)" stroke-width="4" opacity=".8"/>
+    <rect x="210" y="24" width="16" height="82" rx="4" fill="var(--accent)" opacity=".85"/>
+    <g fill="var(--pasta-fill)" stroke="var(--pasta-line)" stroke-width="1.5">
+      <rect x="226" y="44" width="104" height="7" rx="3.5"/>
+      <rect x="226" y="61" width="104" height="7" rx="3.5"/>
+      <rect x="226" y="78" width="104" height="7" rx="3.5"/>
+    </g>
+    <text x="105" y="118" text-anchor="middle" font-size="11" fill="var(--ink-soft)" font-family="sans-serif">auger under pressure</text>
+    <text x="218" y="18" text-anchor="middle" font-size="11" fill="var(--accent)" font-family="sans-serif">die</text>
+    <text x="278" y="118" text-anchor="middle" font-size="11" fill="var(--ink-soft)" font-family="sans-serif">cut &amp; dried</text>
+  </svg>`;
+}
+
+const EXTRUSION_101 = `A pasta factory is essentially one long screw. Semolina and water are mixed
+  into a dough far drier than bread dough — crumbly, not smooth — and an auger drives it forward under
+  roughly 100 bar of pressure into a bronze or Teflon plate called a <em>trafila</em>, the die. The shape
+  of the holes in that plate is the shape of the pasta. A blade spinning against the face of the die cuts
+  the emerging dough to length. Bronze dies drag on the dough and leave a chalky, porous surface that
+  grips sauce; Teflon dies are slicker, faster and cheaper, and give the glossy pasta that sauce slides off.
+  Everything after that is drying — slowly at low heat for good pasta, fast and hot for cheap pasta.`;
+
+function initDetail() {
+  const id = decodeURIComponent(location.hash.split('/')[1] || '');
+  const p = PASTA.find(x => x.id === id);
+  const root = document.getElementById('detail');
+
+  if (!p) {
+    root.innerHTML = `<p class="empty">That shape isn't in the catalogue. <a href="#browse">Browse them all →</a></p>`;
+    return;
+  }
+
+  document.title = p.name + ' — What The Fusilli';
+
+  const related = PASTA.filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 4);
+
+  root.innerHTML = `
+    <div class="detail-head">
+      <div class="art">${pastaSVG(p.icon)}</div>
+      <div class="titles">
+        <p class="eyebrow">${esc(CATEGORIES[p.cat].label)}</p>
+        <h1>${esc(p.name)}</h1>
+        <p class="pron">${esc(p.pron)}</p>
+        <p class="tagline">${esc(p.meaning)}</p>
+        <div class="badges">
+          <span class="badge">${METHODS[p.method]}</span>
+          ${p.sauces.map(s => `<span class="badge plain">${esc(SAUCE_TAGS[s])}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="cols">
+      <div>
+        <div class="panel">
+          <h2>How it's made</h2>
+          <p>${p.made}</p>
+          <p class="diefact"><strong>The die:</strong> ${esc(p.die)}</p>
+        </div>
+
+        ${p.method === 'extruded' ? `
+        <div class="panel">
+          <h2>Extrusion, in short</h2>
+          <p>${EXTRUSION_101}</p>
+          ${extruderDiagram()}
+        </div>` : `
+        <div class="panel">
+          <h2>Why this one isn't extruded</h2>
+          <p>Most dried pasta is pushed through a die under pressure. ${esc(p.name.split(' /')[0])} isn't —
+          the shape can't be produced by forcing dough through a hole, so it's ${p.method === 'rolled'
+            ? 'laminated into a sheet and cut'
+            : p.method === 'stamped'
+              ? 'built from sheets, filled and sealed'
+              : 'formed piece by piece by hand'}. That means softer egg or water dough, a shorter
+          cook time, and a texture no extruder can reproduce.</p>
+          ${extruderDiagram()}
+        </div>`}
+
+        <div class="fact">${p.fact}</div>
+      </div>
+
+      <aside>
+        <div class="panel">
+          <h2>At a glance</h2>
+          ${metaRow(p)}
+        </div>
+        <div class="panel">
+          <h2>Serve it with</h2>
+          <p>${esc(p.best)}</p>
+        </div>
+        ${related.length ? `
+        <div class="panel">
+          <h2>Also in this family</h2>
+          ${related.map(r => `<p style="margin:0 0 8px"><a href="#shape/${r.id}">${esc(r.name)}</a></p>`).join('')}
+        </div>` : ''}
+        <a class="backlink" href="#browse">← All shapes</a>
+      </aside>
+    </div>`;
+}
+
+
+const VIEWS = {"decide":"\n    <section class=\"hero\">\n      <p class=\"eyebrow\">Today's answer</p>\n      <h1>Here's your pasta.</h1>\n    </section>\n\n    <article class=\"result\" id=\"result\"></article>\n\n    <div class=\"reroll\">\n      <button class=\"big-btn\" id=\"spin\">\n        <svg width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M21 12a9 9 0 1 1-3-6.7\"/><path d=\"M21 3v6h-6\"/></svg>\n        Not feeling this shape? Try another\n      </button>\n      <p class=\"spinner-note\" id=\"note\"></p>\n    </div>\n\n    <section class=\"mood\">\n      <p class=\"mood-label\">Or steer it — what are you in the mood for?</p>\n      <div class=\"filters\" id=\"sauceFilters\"></div>\n    </section>","browse":"\n    <div class=\"browse-head\">\n      <p class=\"eyebrow\">The catalogue</p>\n      <h1>Every shape</h1>\n      <p class=\"lede\">Grouped by family. Click any shape for its name, region, sauce pairings and how it's actually made.</p>\n    </div>\n\n    <div class=\"toolbar\">\n      <label class=\"sr-only\" for=\"search\">Search shapes</label>\n      <input class=\"search\" id=\"search\" type=\"search\" placeholder=\"Search a name, region or sauce…\" autocomplete=\"off\">\n      <div class=\"filters\" id=\"catFilters\" style=\"margin:0;justify-content:flex-start\"></div>\n    </div>\n\n    <div id=\"results\"></div>","shape":"<div id=\"detail\"></div>"};
+const appEl = document.getElementById('app');
+const footEl = document.getElementById('foot');
+
+function router() {
+  const hash = location.hash.slice(1);
+  const isShape = hash.startsWith('shape/');
+  const view = isShape ? 'shape' : (hash === 'browse' ? 'browse' : 'decide');
+
+  appEl.innerHTML = VIEWS[view];
+  document.title = 'What The Fusilli';
+
+  if (view === 'shape') { initDetail(); }
+  else if (view === 'browse') { initBrowse(); }
+  else { initDecider(); }
+
+  footEl.innerHTML = view === 'shape'
+    ? '<a href="#browse">← Back to all shapes</a>'
+    : (view === 'browse'
+        ? PASTA.length + ' shapes catalogued.'
+        : 'Shapes, regions and die notes for ' + PASTA.length +
+          ' pastas. Cook times are for dried unless noted.');
+
+  document.querySelectorAll('nav.site a').forEach(a => {
+    a.classList.toggle('active', a.dataset.route === (isShape ? 'browse' : view));
+  });
+
+  window.scrollTo(0, 0);
+}
+
+addEventListener('hashchange', router);
+router();
+</script>
