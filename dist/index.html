@@ -433,9 +433,17 @@ input:focus-visible {
 }
 
 .sr-only {
-  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
+
 </style>
 
 <header class="site">
@@ -1534,6 +1542,10 @@ function pastaSVG(type, cls) {
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
+// Link builders. build.js swaps these two for hash routes in the single-file bundle.
+const shapeHref = id => '#shape/' + id;
+const browseHref = '#browse';
+
 function metaRow(p) {
   return `<dl class="meta">
     <div><dt>Family</dt><dd>${CATEGORIES[p.cat].label}</dd></div>
@@ -1603,7 +1615,7 @@ function initDecider() {
         ${metaRow(p)}
         <p><strong>Serve it with:</strong> ${esc(p.best)}</p>
         <p style="margin-top:18px">
-          <a href="#shape/${p.id}">Read how ${esc(p.name.split(' /')[0])} is made →</a>
+          <a href="${shapeHref(p.id)}">Read how ${esc(p.name.split(' /')[0])} is made →</a>
         </p>
       </div>`;
     void result.offsetWidth;
@@ -1639,7 +1651,7 @@ function initBrowse() {
   search.addEventListener('input', render);
 
   function card(p) {
-    return `<a class="card" href="#shape/${p.id}">
+    return `<a class="card" href="${shapeHref(p.id)}">
       <div class="art">${pastaSVG(p.icon)}</div>
       <h3>${esc(p.name)}</h3>
       <p class="sub">${esc(p.pron)}</p>
@@ -1708,13 +1720,13 @@ const EXTRUSION_101 = `A pasta factory is essentially one long screw. Semolina a
   grips sauce; Teflon dies are slicker, faster and cheaper, and give the glossy pasta that sauce slides off.
   Everything after that is drying — slowly at low heat for good pasta, fast and hot for cheap pasta.`;
 
-function initDetail() {
-  const id = decodeURIComponent(location.hash.split('/')[1] || '');
+function initDetail(pastaId) {
+  const id = pastaId || new URLSearchParams(location.search).get('id');
   const p = PASTA.find(x => x.id === id);
   const root = document.getElementById('detail');
 
   if (!p) {
-    root.innerHTML = `<p class="empty">That shape isn't in the catalogue. <a href="#browse">Browse them all →</a></p>`;
+    root.innerHTML = `<p class="empty">That shape isn't in the catalogue. <a href="${browseHref}">Browse them all →</a></p>`;
     return;
   }
 
@@ -1778,15 +1790,15 @@ function initDetail() {
         ${related.length ? `
         <div class="panel">
           <h2>Also in this family</h2>
-          ${related.map(r => `<p style="margin:0 0 8px"><a href="#shape/${r.id}">${esc(r.name)}</a></p>`).join('')}
+          ${related.map(r => `<p style="margin:0 0 8px"><a href="${shapeHref(r.id)}">${esc(r.name)}</a></p>`).join('')}
         </div>` : ''}
-        <a class="backlink" href="#browse">← All shapes</a>
+        <a class="backlink" href="${browseHref}">← All shapes</a>
       </aside>
     </div>`;
 }
 
 
-const VIEWS = {"decide":"\n    <section class=\"hero\">\n      <p class=\"eyebrow\">Today's answer</p>\n      <h1>Here's your pasta.</h1>\n    </section>\n\n    <article class=\"result\" id=\"result\"></article>\n\n    <div class=\"reroll\">\n      <button class=\"big-btn\" id=\"spin\">\n        <svg width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M21 12a9 9 0 1 1-3-6.7\"/><path d=\"M21 3v6h-6\"/></svg>\n        Not feeling this shape? Try another\n      </button>\n      <p class=\"spinner-note\" id=\"note\"></p>\n    </div>\n\n    <section class=\"mood\">\n      <p class=\"mood-label\">Or steer it — what are you in the mood for?</p>\n      <div class=\"filters\" id=\"sauceFilters\"></div>\n    </section>","browse":"\n    <div class=\"browse-head\">\n      <p class=\"eyebrow\">The catalogue</p>\n      <h1>Every shape</h1>\n      <p class=\"lede\">Grouped by family. Click any shape for its name, region, sauce pairings and how it's actually made.</p>\n    </div>\n\n    <div class=\"toolbar\">\n      <label class=\"sr-only\" for=\"search\">Search shapes</label>\n      <input class=\"search\" id=\"search\" type=\"search\" placeholder=\"Search a name, region or sauce…\" autocomplete=\"off\">\n      <div class=\"filters\" id=\"catFilters\" style=\"margin:0;justify-content:flex-start\"></div>\n    </div>\n\n    <div id=\"results\"></div>","shape":"<div id=\"detail\"></div>"};
+const VIEWS = {"decide":"\n  <section class=\"hero\">\n    <p class=\"eyebrow\">Today's answer</p>\n    <h1>Here's your pasta.</h1>\n  </section>\n\n  <article class=\"result\" id=\"result\"></article>\n\n  <div class=\"reroll\">\n    <button class=\"big-btn\" id=\"spin\">\n      <svg width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M21 12a9 9 0 1 1-3-6.7\"/><path d=\"M21 3v6h-6\"/></svg>\n      Not feeling this shape? Try another\n    </button>\n    <p class=\"spinner-note\" id=\"note\"></p>\n  </div>\n\n  <section class=\"mood\">\n    <p class=\"mood-label\">Or steer it — what are you in the mood for?</p>\n    <div class=\"filters\" id=\"sauceFilters\"></div>\n  </section>\n","browse":"\n  <div class=\"browse-head\">\n    <p class=\"eyebrow\">The catalogue</p>\n    <h1>Every shape</h1>\n    <p class=\"lede\">Grouped by family. Click any shape for its name, region, sauce pairings and how it's actually made.</p>\n  </div>\n\n  <div class=\"toolbar\">\n    <label class=\"sr-only\" for=\"search\">Search shapes</label>\n    <input class=\"search\" id=\"search\" type=\"search\" placeholder=\"Search a name, region or sauce…\" autocomplete=\"off\">\n    <div class=\"filters\" id=\"catFilters\" style=\"margin:0;justify-content:flex-start\"></div>\n  </div>\n\n  <div id=\"results\"></div>\n","shape":"<div id=\"detail\"></div>"};
 const appEl = document.getElementById('app');
 const footEl = document.getElementById('foot');
 
@@ -1798,7 +1810,7 @@ function router() {
   appEl.innerHTML = VIEWS[view];
   document.title = 'What The Fusilli';
 
-  if (view === 'shape') { initDetail(); }
+  if (view === 'shape') { initDetail(decodeURIComponent(hash.split('/')[1] || '')); }
   else if (view === 'browse') { initBrowse(); }
   else { initDecider(); }
 

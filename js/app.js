@@ -1,5 +1,9 @@
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
+// Link builders. build.js swaps these two for hash routes in the single-file bundle.
+const shapeHref = id => '/shapes/' + id + '/';
+const browseHref = '/browse/';
+
 function metaRow(p) {
   return `<dl class="meta">
     <div><dt>Family</dt><dd>${CATEGORIES[p.cat].label}</dd></div>
@@ -69,7 +73,7 @@ function initDecider() {
         ${metaRow(p)}
         <p><strong>Serve it with:</strong> ${esc(p.best)}</p>
         <p style="margin-top:18px">
-          <a href="shape.html?id=${p.id}">Read how ${esc(p.name.split(' /')[0])} is made →</a>
+          <a href="${shapeHref(p.id)}">Read how ${esc(p.name.split(' /')[0])} is made →</a>
         </p>
       </div>`;
     void result.offsetWidth;
@@ -105,7 +109,7 @@ function initBrowse() {
   search.addEventListener('input', render);
 
   function card(p) {
-    return `<a class="card" href="shape.html?id=${p.id}">
+    return `<a class="card" href="${shapeHref(p.id)}">
       <div class="art">${pastaSVG(p.icon)}</div>
       <h3>${esc(p.name)}</h3>
       <p class="sub">${esc(p.pron)}</p>
@@ -174,13 +178,13 @@ const EXTRUSION_101 = `A pasta factory is essentially one long screw. Semolina a
   grips sauce; Teflon dies are slicker, faster and cheaper, and give the glossy pasta that sauce slides off.
   Everything after that is drying — slowly at low heat for good pasta, fast and hot for cheap pasta.`;
 
-function initDetail() {
-  const id = new URLSearchParams(location.search).get('id');
+function initDetail(pastaId) {
+  const id = pastaId || new URLSearchParams(location.search).get('id');
   const p = PASTA.find(x => x.id === id);
   const root = document.getElementById('detail');
 
   if (!p) {
-    root.innerHTML = `<p class="empty">That shape isn't in the catalogue. <a href="browse.html">Browse them all →</a></p>`;
+    root.innerHTML = `<p class="empty">That shape isn't in the catalogue. <a href="${browseHref}">Browse them all →</a></p>`;
     return;
   }
 
@@ -244,9 +248,9 @@ function initDetail() {
         ${related.length ? `
         <div class="panel">
           <h2>Also in this family</h2>
-          ${related.map(r => `<p style="margin:0 0 8px"><a href="shape.html?id=${r.id}">${esc(r.name)}</a></p>`).join('')}
+          ${related.map(r => `<p style="margin:0 0 8px"><a href="${shapeHref(r.id)}">${esc(r.name)}</a></p>`).join('')}
         </div>` : ''}
-        <a class="backlink" href="browse.html">← All shapes</a>
+        <a class="backlink" href="${browseHref}">← All shapes</a>
       </aside>
     </div>`;
 }
