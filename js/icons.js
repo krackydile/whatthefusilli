@@ -187,6 +187,70 @@ const ICONS = {
     <path d="M44 44 Q50 50 56 44 L56 56 Q50 50 44 56 Z" fill="${F}" stroke="${L}" stroke-width="1.7" stroke-linejoin="round"/>
     ${[0, 1, 2].map(i => `<line x1="46" y1="${44 + i * 4}" x2="54" y2="${44 + i * 4}" stroke="${L}" stroke-width="1" opacity=".5"/>`).join('')}`,
 
+  // smaller, tighter shells for soup
+  'shell-small': () => [[30, 32, 17], [66, 46, 15], [36, 72, 16]].map(([x, y, r]) =>
+    `<path d="M${x} ${y - r} C${x + r} ${y - r} ${x + r} ${y + r * 0.7} ${x} ${y + r}
+        C${x - r} ${y + r * 0.7} ${x - r} ${y - r} ${x} ${y - r} Z"
+        fill="${F}" stroke="${L}" stroke-width="1.4"/>
+     <path d="M${x} ${y - r * 0.7} L${x} ${y + r * 0.7}" stroke="${L}" stroke-width=".9" opacity=".45"/>`).join(''),
+
+  // a deep snail curl with a wide mouth
+  lumaconi: () => `<path d="M50 86 A32 32 0 1 1 78 66" fill="none" stroke="${F}" stroke-width="30" stroke-linecap="round"/>
+    ${[0, 1, 2, 3, 4, 5].map(i => `<line x1="${50 + 24 * Math.cos((i * 45 + 120) * Math.PI / 180)}" y1="${50 + 24 * Math.sin((i * 45 + 120) * Math.PI / 180)}" x2="${50 + 40 * Math.cos((i * 45 + 120) * Math.PI / 180)}" y2="${50 + 40 * Math.sin((i * 45 + 120) * Math.PI / 180)}" stroke="${L}" stroke-width="1.2" opacity=".45"/>`).join('')}
+    <ellipse cx="50" cy="86" rx="15" ry="9" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.6"/>`,
+
+  // flat dragged petals
+  cencioni: () => [[30, 30], [66, 48], [36, 72]].map(([x, y], i) =>
+    `<g transform="rotate(${i * 28 - 18} ${x} ${y})">
+      <path d="M${x - 22} ${y} Q${x - 8} ${y - 16} ${x + 10} ${y - 8} Q${x + 24} ${y - 2} ${x + 18} ${y + 8}
+          Q${x + 4} ${y + 16} ${x - 12} ${y + 10} Z" fill="${F}" stroke="${L}" stroke-width="1.5"/>
+      ${[-8, 0, 8].map(o => `<path d="M${x + o - 6} ${y - 4} Q${x + o} ${y + 2} ${x + o + 5} ${y + 6}" fill="none" stroke="${L}" stroke-width=".9" opacity=".45"/>`).join('')}
+    </g>`).join(''),
+
+  // a curved tube wearing a frilled crest
+  creste: () => `<path d="M26 78 Q22 34 58 26" fill="none" stroke="${F}" stroke-width="22" stroke-linecap="round"/>
+    <path d="M18 66 Q20 44 30 30 Q34 40 42 30 Q46 40 54 28 Q58 36 66 26"
+      fill="none" stroke="${F}" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M18 66 Q20 44 30 30 Q34 40 42 30 Q46 40 54 28 Q58 36 66 26"
+      fill="none" stroke="${L}" stroke-width="1.3"/>
+    <path d="M26 78 Q22 34 58 26" fill="none" stroke="${L}" stroke-width="1.3" opacity=".5"/>
+    <ellipse cx="26" cy="78" rx="11" ry="6" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.5"/>`,
+
+  // a bowl with a stub of stem
+  pipe: () => `<path d="M40 30 A26 26 0 1 0 66 62" fill="none" stroke="${F}" stroke-width="24" stroke-linecap="round"/>
+    <path d="M40 30 A26 26 0 1 0 66 62" fill="none" stroke="${L}" stroke-width="1.3" opacity=".5"/>
+    ${[0, 1, 2, 3].map(i => `<line x1="${50 + 20 * Math.cos((i * 40 + 190) * Math.PI / 180)}" y1="${50 + 20 * Math.sin((i * 40 + 190) * Math.PI / 180)}" x2="${50 + 34 * Math.cos((i * 40 + 190) * Math.PI / 180)}" y2="${50 + 34 * Math.sin((i * 40 + 190) * Math.PI / 180)}" stroke="${L}" stroke-width="1.1" opacity=".45"/>`).join('')}
+    <ellipse cx="40" cy="30" rx="12" ry="8" transform="rotate(-30 40 30)" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.5"/>`,
+
+  // stamped discs with a carved relief
+  corzetti: () => [[32, 34, 19], [68, 52, 17], [38, 74, 15]].map(([x, y, r]) =>
+    `<circle cx="${x}" cy="${y}" r="${r}" fill="${F}" stroke="${L}" stroke-width="1.5"/>
+     <circle cx="${x}" cy="${y}" r="${r * 0.62}" fill="none" stroke="${L}" stroke-width="1" opacity=".6"/>
+     ${Array.from({ length: 6 }, (_, i) => {
+        const a = (i * 60) * Math.PI / 180;
+        return `<line x1="${x + r * 0.2 * Math.cos(a)}" y1="${y + r * 0.2 * Math.sin(a)}" x2="${x + r * 0.55 * Math.cos(a)}" y2="${y + r * 0.55 * Math.sin(a)}" stroke="${L}" stroke-width="1" opacity=".55"/>`;
+      }).join('')}`).join(''),
+
+  // a curled ruffled ribbon
+  riccioli: () => `<path d="M30 74 Q18 46 40 30 Q60 16 70 36 Q76 50 62 58"
+      fill="none" stroke="${F}" stroke-width="17" stroke-linecap="round"/>
+    <path d="M30 74 Q18 46 40 30 Q60 16 70 36 Q76 50 62 58"
+      fill="none" stroke="${L}" stroke-width="1.3" opacity=".55"/>
+    ${[0, 1, 2, 3, 4].map(i => `<line x1="${26 + i * 10}" y1="${72 - i * 9}" x2="${34 + i * 10}" y2="${66 - i * 9}" stroke="${L}" stroke-width=".9" opacity=".4"/>`).join('')}`,
+
+  // a tapered spiral, ridged like the mountain
+  vesuvio: () => `<path d="${helix(50, 20, 84, 8, 3)}" fill="none" stroke="${F}" stroke-width="12" stroke-linecap="round"/>
+    <path d="M34 86 Q50 78 66 86" fill="none" stroke="${F}" stroke-width="14" stroke-linecap="round"/>
+    <path d="${helix(50, 20, 84, 8, 3)}" fill="none" stroke="${L}" stroke-width="1.2" opacity=".55"/>
+    <path d="M30 88 Q50 76 70 88" fill="none" stroke="${L}" stroke-width="1.3" opacity=".5"/>`,
+
+  // a ridged shell rolled at one edge
+  castellane: () => `<path d="M22 62 Q30 26 62 24 Q82 24 78 44 Q74 62 54 62 Q36 62 34 78 Q32 88 44 88"
+      fill="none" stroke="${F}" stroke-width="16" stroke-linecap="round"/>
+    <path d="M22 62 Q30 26 62 24 Q82 24 78 44 Q74 62 54 62 Q36 62 34 78 Q32 88 44 88"
+      fill="none" stroke="${L}" stroke-width="1.3" opacity=".55"/>
+    ${[0, 1, 2, 3].map(i => `<line x1="${30 + i * 13}" y1="${34 + i * 3}" x2="${34 + i * 13}" y2="${46 + i * 3}" stroke="${L}" stroke-width=".9" opacity=".4"/>`).join('')}`,
+
   shell: () => {
     // Scallop: hinge at the bottom, frilled fan opening upward.
     let top = 'M14 42 ';
