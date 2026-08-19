@@ -86,6 +86,22 @@ const ICONS = {
   'strand-flat': () => [18, 42, 66].map(x => rod(x, 11, 8, 92)).join(''),
   'strand-thick': () => [26, 56].map(x => rod(x, 17, 8, 92)).join(''),
 
+  // square-section strands: chitarra, tonnarelli, troccoli
+  'strand-square': () => [22, 45, 68].map(x =>
+    `<rect x="${x}" y="8" width="10" height="84" fill="${F}" stroke="${L}" stroke-width="1.4"/>` +
+    `<line x1="${x + 3}" y1="10" x2="${x + 3}" y2="90" stroke="${L}" stroke-width=".8" opacity=".4"/>`).join(''),
+
+  // long tubes: ziti lunghi, candele, zitoni
+  'tube-long': () => [24, 44, 64].map(x =>
+    `<rect x="${x}" y="10" width="14" height="82" rx="2" fill="${F}" stroke="${L}" stroke-width="1.4"/>` +
+    `<ellipse cx="${x + 7}" cy="12" rx="7" ry="2.6" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.1"/>`).join(''),
+
+  // a helix running the whole length: fusilli lunghi
+  'helix-long': () => `<path d="${helix(50, 8, 92, 17, 7)}" fill="none" stroke="${F}" stroke-width="10" stroke-linecap="round"/>
+    <path d="${helix(50, 8, 92, 17, 7)}" fill="none" stroke="${L}" stroke-width="1.2" opacity=".65"/>`,
+
+  'ribbon-fine': () => band(20, 7, 6) + band(46, 7, 6) + band(72, 7, 6),
+
   ribbon: () => band(24, 12, 7) + band(58, 12, 7),
   'ribbon-wide': () => band(16, 24, 9) + band(58, 24, 9),
   'ribbon-ruffle': () => frilledBand(24, 18) + frilledBand(62, 18),
