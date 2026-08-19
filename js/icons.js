@@ -178,10 +178,12 @@ const ICONS = {
      <rect x="${x - 2}" y="${58 + (i % 2) * 8}" width="3" height="24" rx="1.5" fill="${F}" stroke="${L}" stroke-width="1"/>`).join(''),
 
   letters: () => {
-    const glyphs = [['A', 26, 32], ['B', 58, 26], ['C', 78, 50], ['E', 30, 60], ['O', 56, 62], ['S', 40, 84]];
-    return glyphs.map(([ch, x, y]) =>
-      `<text x="${x}" y="${y}" font-family="ui-sans-serif, sans-serif" font-size="24" font-weight="700"
-         fill="${F}" stroke="${L}" stroke-width="1.1" text-anchor="middle">${ch}</text>`).join('');
+    const glyphs = [['A', 24, 34], ['B', 52, 26], ['C', 78, 40], ['E', 30, 62],
+                    ['O', 58, 58], ['S', 80, 74], ['M', 26, 88], ['T', 56, 90]];
+    return glyphs.map(([ch, x, y], i) =>
+      `<text x="${x}" y="${y}" font-family="ui-sans-serif, sans-serif" font-size="30" font-weight="700"
+         transform="rotate(${(i % 3) * 9 - 9} ${x} ${y})"
+         fill="${F}" stroke="${L}" stroke-width="1.4" text-anchor="middle">${ch}</text>`).join('');
   },
 
   sheet: () => `<path d="M14 12 Q22 20 14 28 Q22 36 14 44 Q22 52 14 60 Q22 68 14 76 Q22 84 14 88
@@ -265,12 +267,15 @@ const ICONS = {
     <path d="M44 44 Q50 50 56 44 L56 56 Q50 50 44 56 Z" fill="${F}" stroke="${L}" stroke-width="1.7" stroke-linejoin="round"/>
     ${[0, 1, 2].map(i => `<line x1="46" y1="${44 + i * 4}" x2="54" y2="${44 + i * 4}" stroke="${L}" stroke-width="1" opacity=".5"/>`).join('')}`,
 
-  // smaller, tighter shells for soup
-  'shell-small': () => [[30, 32, 17], [66, 46, 15], [36, 72, 16]].map(([x, y, r]) =>
-    `<path d="M${x} ${y - r} C${x + r} ${y - r} ${x + r} ${y + r * 0.7} ${x} ${y + r}
-        C${x - r} ${y + r * 0.7} ${x - r} ${y - r} ${x} ${y - r} Z"
-        fill="${F}" stroke="${L}" stroke-width="1.4"/>
-     <path d="M${x} ${y - r * 0.7} L${x} ${y + r * 0.7}" stroke="${L}" stroke-width=".9" opacity=".45"/>`).join(''),
+  // smaller, tighter shells for soup — a fan, like conchiglie shrunk
+  'shell-small': () => [[30, 32, 16], [66, 48, 14], [36, 74, 15]].map(([x, y, r]) => {
+    let top = `M${x - r} ${y - r * 0.35} `;
+    for (let i = 0; i < 4; i++) top += `A${r / 4} ${r / 4} 0 0 1 ${x - r + (r / 2) * (i + 1)} ${y - r * 0.35} `;
+    return `<path d="${top} C${x + r} ${y + r * 0.5} ${x + r * 0.5} ${y + r} ${x} ${y + r}
+        C${x - r * 0.5} ${y + r} ${x - r} ${y + r * 0.5} ${x - r} ${y - r * 0.35} Z"
+        fill="${F}" stroke="${L}" stroke-width="1.3" stroke-linejoin="round"/>
+      ${[-0.55, 0, 0.55].map(k => `<path d="M${x} ${y + r * 0.9} Q${x + k * r * 0.6} ${y + r * 0.1} ${x + k * r} ${y - r * 0.3}" fill="none" stroke="${L}" stroke-width=".9" opacity=".45"/>`).join('')}`;
+  }).join(''),
 
   // a deep snail curl with a wide mouth
   lumaconi: () => `<path d="M50 86 A32 32 0 1 1 78 66" fill="none" stroke="${F}" stroke-width="30" stroke-linecap="round"/>
@@ -390,11 +395,23 @@ const ICONS = {
     <path d="M20 58 L50 60 L30 86 Z" fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>
     <path d="M58 60 L86 62 L70 88 Z" fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>`,
 
-  // a pancake cut into diamonds
-  testaroli: () => `<circle cx="50" cy="50" r="38" fill="${F}" stroke="${L}" stroke-width="1.6"/>
-    ${[-20, 0, 20].map(o => `<line x1="${16 + o}" y1="14" x2="${58 + o}" y2="86" stroke="${L}" stroke-width="1.2" opacity=".6"/>`).join('')}
-    ${[-20, 0, 20].map(o => `<line x1="${84 + o}" y1="14" x2="${42 + o}" y2="86" stroke="${L}" stroke-width="1.2" opacity=".6"/>`).join('')}
-    <circle cx="50" cy="50" r="38" fill="none" stroke="${L}" stroke-width="1.8"/>`,
+  // a pancake cut into diamonds. The cuts are chords so none run past the edge.
+  testaroli: () => {
+    const R = 38, cx = 50, cy = 50;
+    const chord = (offset, angleDeg) => {
+      const a = angleDeg * Math.PI / 180;
+      const half = Math.sqrt(Math.max(R * R - offset * offset, 0));
+      const nx = Math.cos(a), ny = Math.sin(a);      // direction along the cut
+      const px = -ny * offset, py = nx * offset;      // perpendicular offset
+      return `<line x1="${cx + px - nx * half}" y1="${cy + py - ny * half}"
+                    x2="${cx + px + nx * half}" y2="${cy + py + ny * half}"
+                    stroke="${L}" stroke-width="1.2" opacity=".6"/>`;
+    };
+    return `<circle cx="${cx}" cy="${cy}" r="${R}" fill="${F}" stroke="${L}" stroke-width="1.7"/>
+      ${[-24, -8, 8, 24].map(o => chord(o, 45)).join('')}
+      ${[-24, -8, 8, 24].map(o => chord(o, -45)).join('')}
+      <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${L}" stroke-width="1.7"/>`;
+  },
 
   // a filled parcel closed with a pleated seam
   culurgiones: () => `<ellipse cx="50" cy="54" rx="30" ry="26" fill="${F}" stroke="${L}" stroke-width="1.7"/>
@@ -538,11 +555,16 @@ const ICONS = {
     ${[-22, -11, 0, 11, 22].map(o => `<path d="M${50 + o} 24 Q${50 + o * 1.35} 52 ${50 + o} 80" fill="none" stroke="${L}" stroke-width="1.2" opacity=".55"/>`).join('')}
     <ellipse cx="50" cy="26" rx="12" ry="4.5" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.4"/>`,
 
-  // a cone with a ribbon wound round it
-  trottole: () => `<path d="M50 16 L70 62 Q50 74 30 62 Z" fill="${F}" stroke="${L}" stroke-width="1.6" stroke-linejoin="round"/>
-    ${[0, 1, 2, 3].map(i => `<path d="M${34 + i * 2.5} ${34 + i * 10} Q50 ${42 + i * 10} ${66 - i * 2.5} ${34 + i * 10}" fill="none" stroke="${L}" stroke-width="1.3" opacity=".6"/>`).join('')}
-    <path d="M50 74 L50 88" stroke="${F}" stroke-width="7" stroke-linecap="round"/>
-    <path d="M50 74 L50 88" stroke="${L}" stroke-width="1.2" opacity=".5"/>`,
+  // a spinning top: a bulbed body drawn to a point, ribbon wound round it
+  trottole: () => `<path d="M50 14 C70 20 78 38 76 52 C74 68 62 80 50 90
+        C38 80 26 68 24 52 C22 38 30 20 50 14 Z"
+      fill="${F}" stroke="${L}" stroke-width="1.6" stroke-linejoin="round"/>
+    ${[0, 1, 2, 3, 4].map(i => {
+      const y = 26 + i * 13;
+      const w = 26 - Math.abs(i - 1.4) * 4;
+      return `<path d="M${50 - w} ${y} Q50 ${y + 7} ${50 + w} ${y - 2}" fill="none" stroke="${L}" stroke-width="1.3" opacity=".6"/>`;
+    }).join('')}
+    <ellipse cx="50" cy="17" rx="9" ry="4" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.3"/>`,
 
   // a short hollow spiral
   'fusilli-bucati': () => `<path d="${helix(50, 16, 84, 19, 4)}" fill="none" stroke="${F}" stroke-width="15" stroke-linecap="round"/>
