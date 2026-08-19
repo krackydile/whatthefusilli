@@ -2474,6 +2474,492 @@ const PASTA = [
     die: 'A carved wooden stamp, not an extrusion die.',
     fact: 'Ligurian families once had stamps carved with their own crest, so the pasta arrived at the table wearing the household\'s name.'
   },
+
+  // ---------------- RIBBONS & SHEETS (added) ----------------
+  {
+    id: 'lasagne-verdi',
+    name: 'Lasagne Verdi',
+    pron: 'lah-ZAHN-yeh VER-dee',
+    meaning: '"Green lasagne."',
+    cat: 'ribbon',
+    region: 'Bologna, Emilia-Romagna',
+    icon: 'sheet',
+    cook: 'Bake 30–40 min',
+    method: 'rolled',
+    sauces: ['baked', 'meaty', 'creamy'],
+    best: 'Lasagne alla Bolognese. In Bologna the green sheet is the traditional one, not a variant.',
+    made: 'Cooked spinach is squeezed dry, chopped to a paste and worked into the egg dough before laminating. The sheet is rolled slightly thicker to carry the extra moisture.',
+    die: 'No die. Rollers and a cutter.',
+    fact: 'The spinach is there for colour and a faint bitterness that cuts besciamella, not for a vegetable flavour you could name.'
+  },
+  {
+    id: 'lasagnoni',
+    name: 'Lasagnoni',
+    pron: 'lah-zahn-YOH-nee',
+    meaning: '"Big lasagne."',
+    cat: 'ribbon',
+    region: 'Southern Italy',
+    icon: 'sheet',
+    cook: 'Bake 35–45 min',
+    method: 'rolled',
+    sauces: ['baked', 'meaty'],
+    best: 'Deep baked dishes where a wider sheet means fewer seams.',
+    made: 'Oversized sheets, often with both long edges ruffled, cut to fill a large tray in a single layer.',
+    die: 'No die.',
+    fact: 'Fewer seams means fewer places for the layers to slide apart when the dish is cut, which is the whole argument for the larger sheet.'
+  },
+  {
+    id: 'fazzoletti',
+    name: 'Fazzoletti',
+    pron: 'fat-tsoh-LET-tee',
+    meaning: '"Handkerchiefs."',
+    cat: 'ribbon',
+    region: 'Liguria & Tuscany',
+    icon: 'sheet-square',
+    cook: '2–3 min (fresh)',
+    method: 'rolled',
+    sauces: ['pesto', 'light', 'creamy'],
+    best: 'Pesto, or a walnut sauce. The sheet drapes over the sauce rather than mixing into it.',
+    made: 'Squares cut from a very thin egg sheet, boiled briefly and served loosely folded so they fall in soft pleats.',
+    die: 'No die. A sheet and a knife.',
+    fact: 'Served draped rather than tossed: the point is the texture of a thin sheet folding over itself, which stirring would destroy.'
+  },
+  {
+    id: 'mandilli-de-saea',
+    name: 'Mandilli de Saea',
+    pron: 'man-DEE-lee deh SAH-eh-ah',
+    meaning: 'Genoese for "silk handkerchiefs."',
+    cat: 'ribbon',
+    region: 'Liguria',
+    icon: 'sheet-square',
+    cook: '1–2 min (fresh)',
+    method: 'rolled',
+    sauces: ['pesto', 'light'],
+    best: 'Pesto Genovese, and nothing that would weigh the sheet down.',
+    made: 'Rolled thinner than any other sheet in Italy — thin enough to read print through — using a soft dough with white wine or oil to keep it pliable.',
+    die: 'No die. A pin and a great deal of patience.',
+    fact: 'The test in Genoa is literal: hold the sheet up, and if you cannot see your hand through it, keep rolling.'
+  },
+  {
+    id: 'maltagliati',
+    name: 'Maltagliati',
+    pron: 'mal-tal-YAH-tee',
+    meaning: '"Badly cut."',
+    cat: 'ribbon',
+    region: 'Emilia-Romagna',
+    icon: 'maltagliati',
+    cook: '3–5 min (fresh)',
+    method: 'rolled',
+    sauces: ['brothy', 'chunky', 'meaty'],
+    best: 'Pasta e fagioli, or a bean and chestnut soup.',
+    made: 'The offcuts left after cutting tagliatelle and filled pasta, gathered up and chopped into rough diamonds and triangles.',
+    die: 'No die. Whatever the knife left behind.',
+    fact: 'A thrift shape that outlived its thrift: factories now make maltagliati deliberately, cutting good dough badly on purpose.'
+  },
+  {
+    id: 'sagne',
+    name: 'Sagne',
+    pron: 'SAHN-yeh',
+    meaning: 'From the same root as lasagne.',
+    cat: 'ribbon',
+    region: 'Puglia & Basilicata',
+    icon: 'ribbon-wide',
+    cook: '6–9 min',
+    method: 'hand',
+    sauces: ['chunky', 'meaty'],
+    best: 'Chickpeas and tomato, or a lamb ragù.',
+    made: 'Eggless semolina dough rolled and cut into short flat strips, thicker and rougher than any northern ribbon.',
+    die: 'No die.',
+    fact: 'Southern flat pasta is made without egg and rolled thicker, which is why it stands up to the long-cooked sauces of the region.'
+  },
+  {
+    id: 'sagnarelli',
+    name: 'Sagnarelli',
+    pron: 'sahn-yah-REL-lee',
+    meaning: 'A diminutive of sagne.',
+    cat: 'ribbon',
+    region: 'Marche & Lazio',
+    icon: 'sagnarelli',
+    cook: '4–6 min (fresh)',
+    method: 'rolled',
+    sauces: ['meaty', 'chunky', 'creamy'],
+    best: 'Meat ragù. The fluted edges catch what a straight cut would drop.',
+    made: 'Egg sheet cut into small rectangles with a fluted wheel on all four sides, so every edge is rippled.',
+    die: 'No die. A crimping wheel.',
+    fact: 'Four rippled edges roughly double the sauce-holding perimeter compared with a plain rectangle of the same area.'
+  },
+  {
+    id: 'tacconi',
+    name: 'Tacconi',
+    pron: 'tak-KOH-nee',
+    meaning: '"Patches," as in a patch on a shoe.',
+    cat: 'ribbon',
+    region: 'Marche & Abruzzo',
+    icon: 'squares',
+    cook: '5–7 min (fresh)',
+    method: 'rolled',
+    sauces: ['meaty', 'chunky'],
+    best: 'Lamb ragù, or a simple tomato with pecorino.',
+    made: 'A rolled sheet, often part fava-bean flour, cut into rough squares about the size of a postage stamp.',
+    die: 'No die.',
+    fact: 'The fava flour is the old version — a poor-harvest pasta from the days when wheat alone was beyond most households.'
+  },
+  {
+    id: 'quadrucci',
+    name: 'Quadrucci',
+    pron: 'kwah-DROOT-chee',
+    meaning: '"Little squares."',
+    cat: 'ribbon',
+    region: 'Emilia-Romagna & Lazio',
+    icon: 'squares-small',
+    cook: '2–4 min (fresh)',
+    method: 'rolled',
+    sauces: ['brothy'],
+    best: 'In brodo, usually with peas or beans. Rarely served any other way.',
+    made: 'Egg sheet cut into ribbons, then cut across again into squares a few millimetres wide.',
+    die: 'No die. Two passes of a knife.',
+    fact: 'Made from the same sheet as tagliatelle, cut twice instead of once — one of the tidiest uses for leftover dough there is.'
+  },
+
+  // ---------------- DECORATIVE (added) ----------------
+  {
+    id: 'farfalloni',
+    name: 'Farfalloni',
+    pron: 'far-fal-LOH-nee',
+    meaning: '"Big butterflies."',
+    cat: 'decorative',
+    region: 'Emilia-Romagna & Lombardy',
+    icon: 'farfalle',
+    cook: '11–13 min',
+    method: 'stamped',
+    sauces: ['creamy', 'chunky', 'baked'],
+    best: 'Cream sauces and baked dishes, where the larger wings hold their shape.',
+    made: 'Cut from a sheet with a fluted wheel and pinched at the centre by machine, exactly like farfalle, at roughly twice the size.',
+    die: 'None. A crimping cutter and a pincher.',
+    fact: 'Scaling a butterfly up makes the uneven cooking worse, not better: the pinch is now four layers thick while the wings are still one.'
+  },
+  {
+    id: 'strichetti',
+    name: 'Strichetti',
+    pron: 'stree-KET-tee',
+    meaning: 'Bolognese dialect for "little pinches."',
+    cat: 'decorative',
+    region: 'Bologna, Emilia-Romagna',
+    icon: 'farfalle',
+    cook: '3–5 min (fresh)',
+    method: 'stamped',
+    sauces: ['brothy', 'creamy'],
+    best: 'In broth, or with butter and Parmigiano.',
+    made: 'Small squares of fresh egg dough pinched at the middle by hand, softer and less regular than a factory farfalla.',
+    die: 'None. Fingers.',
+    fact: 'The hand-pinched original that farfalle industrialised — Bolognese cooks made them from the trimmings left after cutting tortellini.'
+  },
+  {
+    id: 'fiocchi',
+    name: 'Fiocchi',
+    pron: 'FYOK-kee',
+    meaning: '"Bows."',
+    cat: 'decorative',
+    region: 'Northern Italy',
+    icon: 'bow',
+    cook: '10–12 min',
+    method: 'stamped',
+    sauces: ['creamy', 'chunky'],
+    best: 'Cream and vegetable sauces.',
+    made: 'Cut and pinched like farfalle, but from a rounded rather than rectangular blank, so the wings gather rather than fan.',
+    die: 'None. A round cutter and a pincher.',
+    fact: 'Bow, butterfly and pinch are three readings of one gesture, and Italy uses all three names for shapes that differ by millimetres.'
+  },
+  {
+    id: 'fiocchetti',
+    name: 'Fiocchetti',
+    pron: 'fyok-KET-tee',
+    meaning: '"Little bows."',
+    cat: 'decorative',
+    region: 'Northern Italy',
+    icon: 'bow',
+    cook: '8–10 min',
+    method: 'stamped',
+    sauces: ['brothy', 'creamy'],
+    best: 'Broths and light cream sauces.',
+    made: 'The small version, often sold fresh and filled — a bow with a pocket of ricotta at the pinch.',
+    die: 'None.',
+    fact: 'Once filled, the pinch stops being a cooking problem and becomes the seal that holds the filling in.'
+  },
+  {
+    id: 'cuori',
+    name: 'Cuori',
+    pron: 'KWOH-ree',
+    meaning: '"Hearts."',
+    cat: 'decorative',
+    region: 'Modern Italy',
+    icon: 'heart',
+    cook: '9–11 min',
+    method: 'extruded',
+    sauces: ['chunky', 'creamy', 'brothy'],
+    best: 'Simple tomato sauces, and any meal that is making a point.',
+    made: 'Extruded through a die cut with a heart silhouette and shaved off flat, the same way stelline are made.',
+    die: 'Heart-shaped profile, about 10 mm, cut thin.',
+    fact: 'Novelty shapes are cheap to add and expensive to run: an intricate outline means slower extrusion and more breakage in the box.'
+  },
+  {
+    id: 'fiori',
+    name: 'Fiori',
+    pron: 'FYOH-ree',
+    meaning: '"Flowers."',
+    cat: 'decorative',
+    region: 'Modern Italy',
+    icon: 'flower',
+    cook: '9–11 min',
+    method: 'extruded',
+    sauces: ['chunky', 'creamy', 'baked'],
+    best: 'Pasta salads and light tomato sauces.',
+    made: 'A flat flower profile with a hole at the centre, extruded and cut thin.',
+    die: 'Petalled profile with a centre pin.',
+    fact: 'The centre hole is functional, as it is on stelline: without it the middle of the flower stays underdone.'
+  },
+
+  // ---------------- PASTINA (added) ----------------
+  {
+    id: 'corallini',
+    name: 'Corallini',
+    pron: 'koh-ral-LEE-nee',
+    meaning: '"Little corals."',
+    cat: 'small',
+    region: 'Southern Italy',
+    icon: 'ring',
+    cook: '5–7 min',
+    method: 'extruded',
+    sauces: ['brothy'],
+    best: 'Clear broths and light soups.',
+    made: 'Tiny tubes cut so short they read as beads with a hole, extruded through a small pinned die.',
+    die: 'Annular opening about 2 mm, cut almost flush.',
+    fact: 'Named for coral beads, which is what a spoonful looks like once they swell in broth.'
+  },
+  {
+    id: 'filini',
+    name: 'Filini',
+    pron: 'fee-LEE-nee',
+    meaning: '"Little threads."',
+    cat: 'small',
+    region: 'Central Italy',
+    icon: 'filini',
+    cook: '4–6 min',
+    method: 'extruded',
+    sauces: ['brothy'],
+    best: 'Chicken broth. A classic children\'s soup pasta.',
+    made: 'Very fine strands extruded and cut into lengths of a centimetre or so, rather than left long.',
+    die: 'Round holes around 1 mm, cut short.',
+    fact: 'Effectively capellini chopped up — proof that in pastina the cut matters more than the die.'
+  },
+  {
+    id: 'grattini',
+    name: 'Grattini',
+    pron: 'grat-TEE-nee',
+    meaning: '"Little gratings."',
+    cat: 'small',
+    region: 'Central & Northern Italy',
+    icon: 'crumbs',
+    cook: '4–6 min',
+    method: 'extruded',
+    sauces: ['brothy'],
+    best: 'Broth, especially for children and for anyone unwell.',
+    made: 'Irregular crumbs rather than a formed shape: dough pressed through a coarse plate and broken, imitating the grated dough of the old home version.',
+    die: 'A coarse perforated plate; the pieces break rather than being cut.',
+    fact: 'The home original was made by grating a stiff dough on a cheese grater, which is exactly what the name says.'
+  },
+  {
+    id: 'grattoni',
+    name: 'Grattoni',
+    pron: 'grat-TOH-nee',
+    meaning: '"Big gratings."',
+    cat: 'small',
+    region: 'Central Italy',
+    icon: 'crumbs',
+    cook: '6–8 min',
+    method: 'extruded',
+    sauces: ['brothy', 'chunky'],
+    best: 'Thicker soups, where something with a bit of chew is wanted.',
+    made: 'The same broken-crumb method at a larger size, giving pieces closer to fregola than to pastina.',
+    die: 'Coarse perforated plate, larger holes.',
+    fact: 'At this size the irregularity becomes an asset: no two pieces cook identically, so the spoonful has range.'
+  },
+  {
+    id: 'puntine',
+    name: 'Puntine',
+    pron: 'poon-TEE-neh',
+    meaning: '"Little points" or tacks.',
+    cat: 'small',
+    region: 'Southern Italy',
+    icon: 'grain',
+    cook: '5–7 min',
+    method: 'extruded',
+    sauces: ['brothy'],
+    best: 'Broths and very thin soups.',
+    made: 'Small pointed grains extruded through a tapered oval die and cut short.',
+    die: 'Pointed oval opening, around 2 mm.',
+    fact: 'Among the smallest solid shapes made — any smaller and the pieces would pass straight through a colander.'
+  },
+  {
+    id: 'quadrettini',
+    name: 'Quadrettini',
+    pron: 'kwah-dret-TEE-nee',
+    meaning: '"Tiny squares."',
+    cat: 'small',
+    region: 'Emilia-Romagna',
+    icon: 'squares-small',
+    cook: '3–5 min',
+    method: 'rolled',
+    sauces: ['brothy'],
+    best: 'In brodo, the standard northern soup pasta.',
+    made: 'A thin egg sheet cut into ribbons and then across into squares of two or three millimetres.',
+    die: 'No die.',
+    fact: 'Quadrucci and quadrettini differ only in how small the second cut is, which in Emilia is a distinction worth arguing about.'
+  },
+  {
+    id: 'tempestine',
+    name: 'Tempestine',
+    pron: 'tem-peh-STEE-neh',
+    meaning: '"Little storms."',
+    cat: 'small',
+    region: 'Southern Italy',
+    icon: 'dots',
+    cook: '4–6 min',
+    method: 'extruded',
+    sauces: ['brothy'],
+    best: 'Light broths and children\'s soups.',
+    made: 'Minute round beads cut flush at the die, slightly smaller than acini di pepe.',
+    die: 'Round holes about 1.2 mm, cutter at full speed.',
+    fact: 'The name describes what a handful looks like hitting the surface of a pot: a sudden squall.'
+  },
+  {
+    id: 'farfalline',
+    name: 'Farfalline',
+    pron: 'far-fal-LEE-neh',
+    meaning: '"Tiny butterflies."',
+    cat: 'small',
+    region: 'Northern Italy',
+    icon: 'bow-small',
+    cook: '5–7 min',
+    method: 'extruded',
+    sauces: ['brothy'],
+    best: 'Broths, and minestrone where a little shape is wanted.',
+    made: 'Too small to pinch, so unlike real farfalle these are extruded flat through a butterfly-shaped profile and cut thin.',
+    die: 'Butterfly profile about 6 mm.',
+    fact: 'The only butterfly in the catalogue that is genuinely extruded — at this size the pinching machine has nothing to grip.'
+  },
+  {
+    id: 'semini',
+    name: 'Semini',
+    pron: 'seh-MEE-nee',
+    meaning: '"Little seeds."',
+    cat: 'small',
+    region: 'Southern Italy',
+    icon: 'grain',
+    cook: '5–7 min',
+    method: 'extruded',
+    sauces: ['brothy', 'light'],
+    best: 'Soups, and cold salads where rice would otherwise be used.',
+    made: 'Small pointed ovals, close to orzo but shorter and rounder in section.',
+    die: 'Pointed oval, roughly 2 by 3 mm.',
+    fact: 'Seed, grain and rice names cluster around this size because that is genuinely what the pasta is imitating.'
+  },
+  {
+    id: 'sorprese',
+    name: 'Sorprese',
+    pron: 'sor-PREH-zeh',
+    meaning: '"Surprises."',
+    cat: 'small',
+    region: 'Southern Italy',
+    icon: 'shell-small',
+    cook: '7–9 min',
+    method: 'extruded',
+    sauces: ['brothy', 'chunky'],
+    best: 'Minestrone and bean soups.',
+    made: 'Small hollow shells, curled from a crescent die so each piece closes into a pocket.',
+    die: 'Small crescent slot with flow bias.',
+    fact: 'The surprise is what gets caught inside: a single bean or pea lodges in each shell, which is either charming or infuriating.'
+  },
+  {
+    id: 'tripolini',
+    name: 'Tripolini',
+    pron: 'tree-poh-LEE-nee',
+    meaning: 'Named for Tripoli, after Italy\'s Libyan campaign.',
+    cat: 'small',
+    region: 'Southern Italy',
+    icon: 'bow-small',
+    cook: '6–8 min',
+    method: 'extruded',
+    sauces: ['brothy', 'creamy'],
+    best: 'Soups, or a very light cream sauce.',
+    made: 'Small rounded bows with one ruffled edge, extruded flat rather than pinched.',
+    die: 'Rounded bow profile with a frilled edge.',
+    fact: 'One of a handful of shapes named for colonial campaigns in the 1910s, a piece of history now carried entirely by the word.'
+  },
+  {
+    id: 'piombi',
+    name: 'Piombi',
+    pron: 'PYOM-bee',
+    meaning: '"Lead shot."',
+    cat: 'small',
+    region: 'Southern Italy',
+    icon: 'dots',
+    cook: '6–8 min',
+    method: 'extruded',
+    sauces: ['brothy'],
+    best: 'Thick broths, where the beads stay suspended rather than sinking.',
+    made: 'Solid spheres extruded and cut flush, slightly larger and rounder than acini di pepe.',
+    die: 'Round holes about 2 mm, cut flush and tumbled.',
+    fact: 'Tumbling after cutting is what rounds them: straight off the blade they are little cylinders, not shot.'
+  },
+  {
+    id: 'pepe-bucato',
+    name: 'Pepe Bucato',
+    pron: 'PEH-peh boo-KAH-toh',
+    meaning: '"Pierced peppercorns."',
+    cat: 'small',
+    region: 'Southern Italy',
+    icon: 'ring',
+    cook: '5–7 min',
+    method: 'extruded',
+    sauces: ['brothy'],
+    best: 'Clear soups.',
+    made: 'Acini di pepe with a hole: a pinned die at the smallest workable scale, cut flush.',
+    die: 'Pinned annular opening under 2 mm.',
+    fact: 'Suspending a pin inside a hole this small is near the limit of what a bronze die can hold without the bridges tearing.'
+  },
+  {
+    id: 'occhi-di-pernice',
+    name: 'Occhi di Pernice',
+    pron: 'OK-kee dee per-NEE-cheh',
+    meaning: '"Partridge eyes."',
+    cat: 'small',
+    region: 'Central Italy',
+    icon: 'ring',
+    cook: '5–7 min',
+    method: 'extruded',
+    sauces: ['brothy'],
+    best: 'Broth, particularly at Christmas in the Marche and Abruzzo.',
+    made: 'Minute rings, cut from a fine pinned tube so short that only the hole gives them their shape.',
+    die: 'Small annular opening, cut nearly flush.',
+    fact: 'Italian pastina names are almost all borrowed from small round things: peppercorns, coral, lead shot, partridge eyes.'
+  },
+  {
+    id: 'alfabeto',
+    name: 'Alphabet Pasta',
+    pron: 'al-fah-BEH-toh',
+    meaning: 'Letters, plainly.',
+    cat: 'small',
+    region: 'Modern Italy',
+    icon: 'letters',
+    cook: '5–7 min',
+    method: 'extruded',
+    sauces: ['brothy'],
+    best: 'Broth and tinned soup, and getting children to eat either.',
+    made: 'Extruded through a plate cut with the whole alphabet and shaved thin, so each pass of the blade produces a mixed handful of letters.',
+    die: 'A plate bearing 26 separate letter profiles.',
+    fact: 'The letters are cut at different widths so they extrude at the same rate — a thin I would otherwise come out longer than a solid M.'
+  },
 ];
 
 const CATEGORIES = {
@@ -2616,6 +3102,84 @@ const ICONS = {
   ribbon: () => band(24, 12, 7) + band(58, 12, 7),
   'ribbon-wide': () => band(16, 24, 9) + band(58, 24, 9),
   'ribbon-ruffle': () => frilledBand(24, 18) + frilledBand(62, 18),
+
+  // plain squares of sheet: fazzoletti, mandilli
+  'sheet-square': () => [[28, 30, 30], [62, 56, 32]].map(([x, y, w], i) =>
+    `<g transform="rotate(${i ? 12 : -9} ${x + w / 2} ${y + w / 2})">
+      <path d="M${x} ${y} L${x + w} ${y - 3} L${x + w + 3} ${y + w} L${x + 2} ${y + w + 3} Z"
+        fill="${F}" stroke="${L}" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M${x + 6} ${y + w / 2} Q${x + w / 2} ${y + w / 2 - 6} ${x + w - 4} ${y + w / 2}"
+        fill="none" stroke="${L}" stroke-width=".9" opacity=".4"/>
+    </g>`).join(''),
+
+  // offcuts: rough diamonds and triangles
+  maltagliati: () => `
+    <path d="M16 26 L44 18 L38 44 L14 46 Z" fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M54 22 L84 32 L62 50 Z" fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M20 58 L48 56 L44 84 L24 80 Z" fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M58 60 L86 58 L78 86 L56 80 Z" fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>`,
+
+  // rectangles with every edge fluted
+  sagnarelli: () => [[24, 26], [58, 52]].map(([x, y]) => {
+    const w = 36, h = 26;
+    let d = `M${x} ${y} `;
+    for (let i = x; i < x + w; i += 9) d += `A4.5 4.5 0 0 1 ${i + 9} ${y} `;
+    d += `L${x + w} ${y + h} `;
+    for (let i = x + w; i > x; i -= 9) d += `A4.5 4.5 0 0 1 ${i - 9} ${y + h} `;
+    return `<path d="${d} Z" fill="${F}" stroke="${L}" stroke-width="1.4"/>`;
+  }).join(''),
+
+  squares: () => [[22, 24], [58, 34], [30, 62], [64, 70]].map(([x, y], i) =>
+    `<rect x="${x}" y="${y}" width="26" height="24" rx="2" transform="rotate(${i * 7 - 10} ${x + 13} ${y + 12})" fill="${F}" stroke="${L}" stroke-width="1.4"/>`).join(''),
+
+  'squares-small': () => {
+    const out = [];
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) {
+      const x = 18 + c * 18 + (r % 2 ? 4 : 0), y = 18 + r * 18;
+      out.push(`<rect x="${x}" y="${y}" width="12" height="12" rx="1.5" transform="rotate(${(r + c) * 5 - 10} ${x + 6} ${y + 6})" fill="${F}" stroke="${L}" stroke-width="1.1"/>`);
+    }
+    return out.join('');
+  },
+
+  heart: () => [[32, 34, 18], [66, 52, 16], [38, 74, 14]].map(([x, y, r]) =>
+    `<path d="M${x} ${y + r * 0.8} C${x - r * 1.4} ${y - r * 0.2} ${x - r * 0.5} ${y - r} ${x} ${y - r * 0.35}
+        C${x + r * 0.5} ${y - r} ${x + r * 1.4} ${y - r * 0.2} ${x} ${y + r * 0.8} Z"
+        fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>`).join(''),
+
+  flower: () => [[32, 34, 16], [66, 54, 14], [36, 74, 13]].map(([x, y, r]) =>
+    Array.from({ length: 6 }, (_, i) => {
+      const a = (i * 60) * Math.PI / 180;
+      return `<circle cx="${x + r * 0.62 * Math.cos(a)}" cy="${y + r * 0.62 * Math.sin(a)}" r="${r * 0.42}" fill="${F}" stroke="${L}" stroke-width="1.2"/>`;
+    }).join('') + `<circle cx="${x}" cy="${y}" r="${r * 0.3}" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.1"/>`).join(''),
+
+  bow: () => [[34, 36], [66, 68]].map(([x, y]) =>
+    `<path d="M${x - 24} ${y - 14} Q${x - 6} ${y - 6} ${x} ${y} Q${x - 6} ${y + 6} ${x - 24} ${y + 14} Q${x - 18} ${y} ${x - 24} ${y - 14} Z"
+        fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>
+     <path d="M${x + 24} ${y - 14} Q${x + 6} ${y - 6} ${x} ${y} Q${x + 6} ${y + 6} ${x + 24} ${y + 14} Q${x + 18} ${y} ${x + 24} ${y - 14} Z"
+        fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>
+     <circle cx="${x}" cy="${y}" r="4" fill="${F}" stroke="${L}" stroke-width="1.3"/>`).join(''),
+
+  'bow-small': () => [[26, 28], [60, 40], [34, 64], [68, 76]].map(([x, y]) =>
+    `<path d="M${x - 12} ${y - 7} Q${x - 3} ${y - 3} ${x} ${y} Q${x - 3} ${y + 3} ${x - 12} ${y + 7} Q${x - 9} ${y} ${x - 12} ${y - 7} Z
+        M${x + 12} ${y - 7} Q${x + 3} ${y - 3} ${x} ${y} Q${x + 3} ${y + 3} ${x + 12} ${y + 7} Q${x + 9} ${y} ${x + 12} ${y - 7} Z"
+        fill="${F}" stroke="${L}" stroke-width="1.1" stroke-linejoin="round"/>`).join(''),
+
+  crumbs: () => [[26, 28, 9, 6], [52, 22, 7, 9], [72, 36, 8, 6], [34, 50, 6, 8],
+                 [60, 54, 9, 7], [24, 70, 8, 6], [50, 76, 6, 7], [74, 68, 7, 8]]
+    .map(([x, y, w, h], i) =>
+      `<path d="M${x - w} ${y} L${x - w / 3} ${y - h} L${x + w} ${y - h / 3} L${x + w / 2} ${y + h} L${x - w / 2} ${y + h * 0.7} Z"
+          transform="rotate(${i * 23} ${x} ${y})" fill="${F}" stroke="${L}" stroke-width="1.1" stroke-linejoin="round"/>`).join(''),
+
+  filini: () => [22, 34, 46, 58, 70].map((x, i) =>
+    `<rect x="${x}" y="${20 + (i % 2) * 10}" width="3" height="26" rx="1.5" fill="${F}" stroke="${L}" stroke-width="1"/>
+     <rect x="${x - 2}" y="${58 + (i % 2) * 8}" width="3" height="24" rx="1.5" fill="${F}" stroke="${L}" stroke-width="1"/>`).join(''),
+
+  letters: () => {
+    const glyphs = [['A', 26, 32], ['B', 58, 26], ['C', 78, 50], ['E', 30, 60], ['O', 56, 62], ['S', 40, 84]];
+    return glyphs.map(([ch, x, y]) =>
+      `<text x="${x}" y="${y}" font-family="ui-sans-serif, sans-serif" font-size="24" font-weight="700"
+         fill="${F}" stroke="${L}" stroke-width="1.1" text-anchor="middle">${ch}</text>`).join('');
+  },
 
   sheet: () => `<path d="M14 12 Q22 20 14 28 Q22 36 14 44 Q22 52 14 60 Q22 68 14 76 Q22 84 14 88
       L86 88 Q78 80 86 72 Q78 64 86 56 Q78 48 86 40 Q78 32 86 24 Q78 16 86 12 Z"

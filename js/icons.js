@@ -106,6 +106,84 @@ const ICONS = {
   'ribbon-wide': () => band(16, 24, 9) + band(58, 24, 9),
   'ribbon-ruffle': () => frilledBand(24, 18) + frilledBand(62, 18),
 
+  // plain squares of sheet: fazzoletti, mandilli
+  'sheet-square': () => [[28, 30, 30], [62, 56, 32]].map(([x, y, w], i) =>
+    `<g transform="rotate(${i ? 12 : -9} ${x + w / 2} ${y + w / 2})">
+      <path d="M${x} ${y} L${x + w} ${y - 3} L${x + w + 3} ${y + w} L${x + 2} ${y + w + 3} Z"
+        fill="${F}" stroke="${L}" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M${x + 6} ${y + w / 2} Q${x + w / 2} ${y + w / 2 - 6} ${x + w - 4} ${y + w / 2}"
+        fill="none" stroke="${L}" stroke-width=".9" opacity=".4"/>
+    </g>`).join(''),
+
+  // offcuts: rough diamonds and triangles
+  maltagliati: () => `
+    <path d="M16 26 L44 18 L38 44 L14 46 Z" fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M54 22 L84 32 L62 50 Z" fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M20 58 L48 56 L44 84 L24 80 Z" fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M58 60 L86 58 L78 86 L56 80 Z" fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>`,
+
+  // rectangles with every edge fluted
+  sagnarelli: () => [[24, 26], [58, 52]].map(([x, y]) => {
+    const w = 36, h = 26;
+    let d = `M${x} ${y} `;
+    for (let i = x; i < x + w; i += 9) d += `A4.5 4.5 0 0 1 ${i + 9} ${y} `;
+    d += `L${x + w} ${y + h} `;
+    for (let i = x + w; i > x; i -= 9) d += `A4.5 4.5 0 0 1 ${i - 9} ${y + h} `;
+    return `<path d="${d} Z" fill="${F}" stroke="${L}" stroke-width="1.4"/>`;
+  }).join(''),
+
+  squares: () => [[22, 24], [58, 34], [30, 62], [64, 70]].map(([x, y], i) =>
+    `<rect x="${x}" y="${y}" width="26" height="24" rx="2" transform="rotate(${i * 7 - 10} ${x + 13} ${y + 12})" fill="${F}" stroke="${L}" stroke-width="1.4"/>`).join(''),
+
+  'squares-small': () => {
+    const out = [];
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) {
+      const x = 18 + c * 18 + (r % 2 ? 4 : 0), y = 18 + r * 18;
+      out.push(`<rect x="${x}" y="${y}" width="12" height="12" rx="1.5" transform="rotate(${(r + c) * 5 - 10} ${x + 6} ${y + 6})" fill="${F}" stroke="${L}" stroke-width="1.1"/>`);
+    }
+    return out.join('');
+  },
+
+  heart: () => [[32, 34, 18], [66, 52, 16], [38, 74, 14]].map(([x, y, r]) =>
+    `<path d="M${x} ${y + r * 0.8} C${x - r * 1.4} ${y - r * 0.2} ${x - r * 0.5} ${y - r} ${x} ${y - r * 0.35}
+        C${x + r * 0.5} ${y - r} ${x + r * 1.4} ${y - r * 0.2} ${x} ${y + r * 0.8} Z"
+        fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>`).join(''),
+
+  flower: () => [[32, 34, 16], [66, 54, 14], [36, 74, 13]].map(([x, y, r]) =>
+    Array.from({ length: 6 }, (_, i) => {
+      const a = (i * 60) * Math.PI / 180;
+      return `<circle cx="${x + r * 0.62 * Math.cos(a)}" cy="${y + r * 0.62 * Math.sin(a)}" r="${r * 0.42}" fill="${F}" stroke="${L}" stroke-width="1.2"/>`;
+    }).join('') + `<circle cx="${x}" cy="${y}" r="${r * 0.3}" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.1"/>`).join(''),
+
+  bow: () => [[34, 36], [66, 68]].map(([x, y]) =>
+    `<path d="M${x - 24} ${y - 14} Q${x - 6} ${y - 6} ${x} ${y} Q${x - 6} ${y + 6} ${x - 24} ${y + 14} Q${x - 18} ${y} ${x - 24} ${y - 14} Z"
+        fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>
+     <path d="M${x + 24} ${y - 14} Q${x + 6} ${y - 6} ${x} ${y} Q${x + 6} ${y + 6} ${x + 24} ${y + 14} Q${x + 18} ${y} ${x + 24} ${y - 14} Z"
+        fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>
+     <circle cx="${x}" cy="${y}" r="4" fill="${F}" stroke="${L}" stroke-width="1.3"/>`).join(''),
+
+  'bow-small': () => [[26, 28], [60, 40], [34, 64], [68, 76]].map(([x, y]) =>
+    `<path d="M${x - 12} ${y - 7} Q${x - 3} ${y - 3} ${x} ${y} Q${x - 3} ${y + 3} ${x - 12} ${y + 7} Q${x - 9} ${y} ${x - 12} ${y - 7} Z
+        M${x + 12} ${y - 7} Q${x + 3} ${y - 3} ${x} ${y} Q${x + 3} ${y + 3} ${x + 12} ${y + 7} Q${x + 9} ${y} ${x + 12} ${y - 7} Z"
+        fill="${F}" stroke="${L}" stroke-width="1.1" stroke-linejoin="round"/>`).join(''),
+
+  crumbs: () => [[26, 28, 9, 6], [52, 22, 7, 9], [72, 36, 8, 6], [34, 50, 6, 8],
+                 [60, 54, 9, 7], [24, 70, 8, 6], [50, 76, 6, 7], [74, 68, 7, 8]]
+    .map(([x, y, w, h], i) =>
+      `<path d="M${x - w} ${y} L${x - w / 3} ${y - h} L${x + w} ${y - h / 3} L${x + w / 2} ${y + h} L${x - w / 2} ${y + h * 0.7} Z"
+          transform="rotate(${i * 23} ${x} ${y})" fill="${F}" stroke="${L}" stroke-width="1.1" stroke-linejoin="round"/>`).join(''),
+
+  filini: () => [22, 34, 46, 58, 70].map((x, i) =>
+    `<rect x="${x}" y="${20 + (i % 2) * 10}" width="3" height="26" rx="1.5" fill="${F}" stroke="${L}" stroke-width="1"/>
+     <rect x="${x - 2}" y="${58 + (i % 2) * 8}" width="3" height="24" rx="1.5" fill="${F}" stroke="${L}" stroke-width="1"/>`).join(''),
+
+  letters: () => {
+    const glyphs = [['A', 26, 32], ['B', 58, 26], ['C', 78, 50], ['E', 30, 60], ['O', 56, 62], ['S', 40, 84]];
+    return glyphs.map(([ch, x, y]) =>
+      `<text x="${x}" y="${y}" font-family="ui-sans-serif, sans-serif" font-size="24" font-weight="700"
+         fill="${F}" stroke="${L}" stroke-width="1.1" text-anchor="middle">${ch}</text>`).join('');
+  },
+
   sheet: () => `<path d="M14 12 Q22 20 14 28 Q22 36 14 44 Q22 52 14 60 Q22 68 14 76 Q22 84 14 88
       L86 88 Q78 80 86 72 Q78 64 86 56 Q78 48 86 40 Q78 32 86 24 Q78 16 86 12 Z"
       fill="${F}" stroke="${L}" stroke-width="1.8" stroke-linejoin="round"/>`,
