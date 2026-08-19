@@ -40,6 +40,18 @@ const MARK = `<svg viewBox="0 0 100 100" aria-hidden="true"><g fill="none" strok
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
+// Asset URLs carry a hash of their contents, so a changed file is a changed URL
+// and no browser can serve you yesterday's JavaScript.
+const crypto = require('crypto');
+const stamp = file =>
+  '/' + file + '?v=' + crypto.createHash('sha1').update(read(file)).digest('hex').slice(0, 8);
+
+const CSS_URL = stamp('css/style.css');
+const DATA_URL = stamp('js/data.js');
+const ICONS_URL = stamp('js/icons.js');
+const APP_URL = stamp('js/app.js');
+const LOG_URL = fs.existsSync(path.join(root, 'js/log.js')) ? stamp('js/log.js') : null;
+
 function page({ title, description, nav, main, script, footer }) {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -51,7 +63,7 @@ function page({ title, description, nav, main, script, footer }) {
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:type" content="website">
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="${CSS_URL}">
 <link rel="icon" href="${FAVICON}">
 </head>
 <body>
@@ -72,9 +84,9 @@ ${main}
   <div class="wrap">${footer}</div>
 </footer>
 
-<script src="/js/data.js"></script>
-<script src="/js/icons.js"></script>
-<script src="/js/app.js"></script>
+<script src="${DATA_URL}"></script>
+<script src="${ICONS_URL}"></script>
+<script src="${APP_URL}"></script>
 <script>${script}</script>
 </body>
 </html>
@@ -86,7 +98,7 @@ ${main}
 const DECIDE_MAIN = `<main class="wrap">
   <section class="hero">
     <p class="eyebrow">Pasta of the day</p>
-    <h1>Today, you're making this.</h1>
+    <h1 id="headline">What's boiling today?</h1>
   </section>
 
   <article class="result" id="result"></article>

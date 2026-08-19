@@ -1574,13 +1574,39 @@ function pastaOfTheDay(list, when) {
   return list[((day * step) % n + n) % n];
 }
 
+/* The shape is fixed for the day; the greeting isn't. This changes on every
+   load so the page has something new even when the pasta doesn't. */
+const HEADLINES = [
+  "What's boiling today?",
+  'Put the water on.',
+  'Stop scrolling. Start boiling.',
+  'The semolina has spoken.',
+  'Salt the water.',
+  'The pot has spoken.',
+  'Water you waiting for?',
+  "Let's get this pot started.",
+  'Salt it like the sea.',
+  'Bring it to a rolling boil.',
+  'Feeling saucy?',
+  'Use your noodle.',
+  'Al dente or nothing.',
+  'Boil now, thank me later.',
+  'Water first. Questions later.',
+  'Steam ahead.'
+];
+
 function initDecider() {
   const wrap = document.getElementById('sauceFilters');
   const note = document.getElementById('note');
   const result = document.getElementById('result');
+  const headline = document.getElementById('headline');
   const chosen = new Set();
   const todays = pastaOfTheDay(PASTA);
   let showing = null;
+
+  if (headline) {
+    headline.textContent = HEADLINES[Math.floor(Math.random() * HEADLINES.length)];
+  }
 
   wrap.innerHTML = Object.entries(SAUCE_TAGS)
     .map(([k, v]) => `<button class="chip" data-tag="${k}" aria-pressed="false">${esc(v)}</button>`)
@@ -1637,7 +1663,7 @@ function initDecider() {
         <div class="art">${pastaSVG(p.icon)}</div>
         <div>
           <p class="eyebrow">${isToday ? esc(dateLabel) : 'Just browsing'}</p>
-          <h2>${esc(p.name)}</h2>
+          <h2 class="shape-name">${esc(p.name)}</h2>
           <p class="pron">${esc(p.pron)} · ${esc(p.meaning)}</p>
         </div>
       </div>
@@ -1835,7 +1861,7 @@ function initDetail(pastaId) {
 }
 
 
-const VIEWS = {"decide":"\n  <section class=\"hero\">\n    <p class=\"eyebrow\">Pasta of the day</p>\n    <h1>Today, you're making this.</h1>\n  </section>\n\n  <article class=\"result\" id=\"result\"></article>\n\n  <div class=\"reroll\">\n    <button class=\"big-btn\" id=\"spin\">\n      <svg width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M21 12a9 9 0 1 1-3-6.7\"/><path d=\"M21 3v6h-6\"/></svg>\n      Not feeling it? Show me another\n    </button>\n    <p class=\"spinner-note\" id=\"note\"></p>\n  </div>\n\n  <section class=\"mood\">\n    <p class=\"mood-label\">Or go looking — what are you in the mood for?</p>\n    <div class=\"filters\" id=\"sauceFilters\"></div>\n  </section>\n","browse":"\n  <div class=\"browse-head\">\n    <p class=\"eyebrow\">The catalogue</p>\n    <h1>Every shape</h1>\n    <p class=\"lede\">Grouped by family. Click any shape for its name, region, sauce pairings and how it's actually made.</p>\n  </div>\n\n  <div class=\"toolbar\">\n    <label class=\"sr-only\" for=\"search\">Search shapes</label>\n    <input class=\"search\" id=\"search\" type=\"search\" placeholder=\"Search a name, region or sauce…\" autocomplete=\"off\">\n    <div class=\"filters\" id=\"catFilters\" style=\"margin:0;justify-content:flex-start\"></div>\n  </div>\n\n  <div id=\"results\"></div>\n","shape":"<div id=\"detail\"></div>"};
+const VIEWS = {"decide":"\n  <section class=\"hero\">\n    <p class=\"eyebrow\">Pasta of the day</p>\n    <h1 id=\"headline\">What's boiling today?</h1>\n  </section>\n\n  <article class=\"result\" id=\"result\"></article>\n\n  <div class=\"reroll\">\n    <button class=\"big-btn\" id=\"spin\">\n      <svg width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M21 12a9 9 0 1 1-3-6.7\"/><path d=\"M21 3v6h-6\"/></svg>\n      Not feeling it? Show me another\n    </button>\n    <p class=\"spinner-note\" id=\"note\"></p>\n  </div>\n\n  <section class=\"mood\">\n    <p class=\"mood-label\">Or go looking — what are you in the mood for?</p>\n    <div class=\"filters\" id=\"sauceFilters\"></div>\n  </section>\n","browse":"\n  <div class=\"browse-head\">\n    <p class=\"eyebrow\">The catalogue</p>\n    <h1>Every shape</h1>\n    <p class=\"lede\">Grouped by family. Click any shape for its name, region, sauce pairings and how it's actually made.</p>\n  </div>\n\n  <div class=\"toolbar\">\n    <label class=\"sr-only\" for=\"search\">Search shapes</label>\n    <input class=\"search\" id=\"search\" type=\"search\" placeholder=\"Search a name, region or sauce…\" autocomplete=\"off\">\n    <div class=\"filters\" id=\"catFilters\" style=\"margin:0;justify-content:flex-start\"></div>\n  </div>\n\n  <div id=\"results\"></div>\n","shape":"<div id=\"detail\"></div>"};
 const appEl = document.getElementById('app');
 const footEl = document.getElementById('foot');
 

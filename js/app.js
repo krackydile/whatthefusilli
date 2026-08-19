@@ -32,13 +32,39 @@ function pastaOfTheDay(list, when) {
   return list[((day * step) % n + n) % n];
 }
 
+/* The shape is fixed for the day; the greeting isn't. This changes on every
+   load so the page has something new even when the pasta doesn't. */
+const HEADLINES = [
+  "What's boiling today?",
+  'Put the water on.',
+  'Stop scrolling. Start boiling.',
+  'The semolina has spoken.',
+  'Salt the water.',
+  'The pot has spoken.',
+  'Water you waiting for?',
+  "Let's get this pot started.",
+  'Salt it like the sea.',
+  'Bring it to a rolling boil.',
+  'Feeling saucy?',
+  'Use your noodle.',
+  'Al dente or nothing.',
+  'Boil now, thank me later.',
+  'Water first. Questions later.',
+  'Steam ahead.'
+];
+
 function initDecider() {
   const wrap = document.getElementById('sauceFilters');
   const note = document.getElementById('note');
   const result = document.getElementById('result');
+  const headline = document.getElementById('headline');
   const chosen = new Set();
   const todays = pastaOfTheDay(PASTA);
   let showing = null;
+
+  if (headline) {
+    headline.textContent = HEADLINES[Math.floor(Math.random() * HEADLINES.length)];
+  }
 
   wrap.innerHTML = Object.entries(SAUCE_TAGS)
     .map(([k, v]) => `<button class="chip" data-tag="${k}" aria-pressed="false">${esc(v)}</button>`)
@@ -95,7 +121,7 @@ function initDecider() {
         <div class="art">${pastaSVG(p.icon)}</div>
         <div>
           <p class="eyebrow">${isToday ? esc(dateLabel) : 'Just browsing'}</p>
-          <h2>${esc(p.name)}</h2>
+          <h2 class="shape-name">${esc(p.name)}</h2>
           <p class="pron">${esc(p.pron)} · ${esc(p.meaning)}</p>
         </div>
       </div>
