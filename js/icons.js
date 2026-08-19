@@ -344,6 +344,66 @@ const ICONS = {
     <circle cx="50" cy="50" r="23" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.4" opacity=".9"/>
     ${[0, 1, 2, 3, 4, 5].map(i => `<line x1="${50 + 24 * Math.cos(i * 1.05)}" y1="${50 + 24 * Math.sin(i * 1.05)}" x2="${50 + 33 * Math.cos(i * 1.05)}" y2="${50 + 33 * Math.sin(i * 1.05)}" stroke="${L}" stroke-width="1.1" opacity=".45"/>`).join('')}`,
 
+  // an open pod pressed with three fingers
+  capunti: () => [[30, 30], [64, 50], [36, 74]].map(([x, y], i) =>
+    `<g transform="rotate(${i * 26 - 16} ${x} ${y})">
+      <path d="M${x - 24} ${y} Q${x} ${y - 14} ${x + 24} ${y} Q${x} ${y + 14} ${x - 24} ${y} Z" fill="${F}" stroke="${L}" stroke-width="1.5"/>
+      ${[-11, 0, 11].map(o => `<ellipse cx="${x + o}" cy="${y}" rx="5" ry="4" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1"/>`).join('')}
+    </g>`).join(''),
+
+  // two strands twisted into a closed ring
+  lorighittas: () => [[34, 36, 20], [66, 68, 17]].map(([x, y, r]) =>
+    `<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${F}" stroke-width="9"/>
+     <circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${L}" stroke-width="1.2" opacity=".5"/>
+     ${Array.from({ length: 14 }, (_, i) => {
+        const a = (i * 360 / 14) * Math.PI / 180;
+        return `<line x1="${x + (r - 5) * Math.cos(a)}" y1="${y + (r - 5) * Math.sin(a)}" x2="${x + (r + 5) * Math.cos(a + 0.22)}" y2="${y + (r + 5) * Math.sin(a + 0.22)}" stroke="${L}" stroke-width="1" opacity=".55"/>`;
+      }).join('')}`).join(''),
+
+  // threads laid in overlapping layers on a frame
+  filindeu: () => `<circle cx="50" cy="50" r="38" fill="${F}" stroke="${L}" stroke-width="1.6" opacity=".55"/>
+    ${Array.from({ length: 9 }, (_, i) => `<line x1="14" y1="${20 + i * 7.5}" x2="86" y2="${20 + i * 7.5}" stroke="${L}" stroke-width="1.1" opacity=".7"/>`).join('')}
+    ${Array.from({ length: 9 }, (_, i) => `<line x1="${20 + i * 7.5}" y1="14" x2="${20 + i * 7.5}" y2="86" stroke="${L}" stroke-width="1.1" opacity=".45"/>`).join('')}
+    <circle cx="50" cy="50" r="38" fill="none" stroke="${L}" stroke-width="2"/>`,
+
+  // short buckwheat ribbons
+  pizzoccheri: () => [22, 40, 58, 76].map((y, i) =>
+    `<rect x="${14 + (i % 2) * 6}" y="${y}" width="${64 - (i % 2) * 8}" height="12" rx="2"
+       transform="rotate(${i % 2 ? 3 : -3} 50 ${y + 6})" fill="${F}" stroke="${L}" stroke-width="1.4"/>`).join(''),
+
+  // pressed through a perforated iron: thick, short, rough
+  passatelli: () => [[24, 22], [52, 16], [70, 40], [30, 52], [58, 62], [26, 80], [62, 84]]
+    .map(([x, y], i) =>
+      `<rect x="${x}" y="${y}" width="26" height="9" rx="4.5" transform="rotate(${i * 27 - 20} ${x + 13} ${y + 4})" fill="${F}" stroke="${L}" stroke-width="1.3"/>`).join(''),
+
+  // dragged flat across a ridged board
+  strascinati: () => [[30, 30], [66, 50], [34, 74]].map(([x, y], i) =>
+    `<g transform="rotate(${i * 22 - 14} ${x} ${y})">
+      <path d="M${x - 20} ${y - 12} L${x + 20} ${y - 14} L${x + 22} ${y + 12} L${x - 18} ${y + 13} Z" fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>
+      ${[-12, -4, 4, 12].map(o => `<line x1="${x + o}" y1="${y - 11}" x2="${x + o}" y2="${y + 11}" stroke="${L}" stroke-width=".9" opacity=".45"/>`).join('')}
+    </g>`).join(''),
+
+  // rough buckwheat triangles
+  blecs: () => `
+    <path d="M18 24 L46 20 L30 48 Z" fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M56 22 L84 34 L58 50 Z" fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M20 58 L50 60 L30 86 Z" fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M58 60 L86 62 L70 88 Z" fill="${F}" stroke="${L}" stroke-width="1.4" stroke-linejoin="round"/>`,
+
+  // a pancake cut into diamonds
+  testaroli: () => `<circle cx="50" cy="50" r="38" fill="${F}" stroke="${L}" stroke-width="1.6"/>
+    ${[-20, 0, 20].map(o => `<line x1="${16 + o}" y1="14" x2="${58 + o}" y2="86" stroke="${L}" stroke-width="1.2" opacity=".6"/>`).join('')}
+    ${[-20, 0, 20].map(o => `<line x1="${84 + o}" y1="14" x2="${42 + o}" y2="86" stroke="${L}" stroke-width="1.2" opacity=".6"/>`).join('')}
+    <circle cx="50" cy="50" r="38" fill="none" stroke="${L}" stroke-width="1.8"/>`,
+
+  // a filled parcel closed with a pleated seam
+  culurgiones: () => `<ellipse cx="50" cy="54" rx="30" ry="26" fill="${F}" stroke="${L}" stroke-width="1.7"/>
+    ${Array.from({ length: 9 }, (_, i) => {
+      const x = 24 + i * 6.5;
+      return `<path d="M${x} 34 Q${x + 3} 26 ${x + 6} 34" fill="none" stroke="${L}" stroke-width="1.3"/>`;
+    }).join('')}
+    <path d="M22 36 Q50 24 78 36" fill="none" stroke="${L}" stroke-width="1.4" opacity=".7"/>`,
+
   cavatelli: () => [[26, 26], [62, 40], [30, 68]].map(([x, y], i) =>
     `<g transform="rotate(${i * 30 - 20} ${x} ${y})">
       <path d="M${x - 20} ${y} Q${x} ${y - 16} ${x + 20} ${y} Q${x} ${y + 16} ${x - 20} ${y} Z" fill="${F}" stroke="${L}" stroke-width="1.6"/>
