@@ -114,6 +114,39 @@ const ICONS = {
   'penne-smooth': () => quill(false),
 
   rigatoni: () => tube(28, 20, 44, 60, true, -8),
+
+  // ridges that spiral round the barrel: tortiglioni, elicoidali
+  tortiglioni: () => `<g transform="rotate(-8 50 50)">
+    <path d="M28 20 L28 80 A22 7 0 0 0 72 80 L72 20 Z" fill="${F}" stroke="${L}" stroke-width="1.6"/>
+    ${[0, 1, 2, 3, 4, 5].map(i => `<path d="M28 ${26 + i * 10} Q50 ${32 + i * 10} 72 ${24 + i * 10}" fill="none" stroke="${L}" stroke-width="1" opacity=".5"/>`).join('')}
+    <ellipse cx="50" cy="20" rx="22" ry="7" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.6"/>
+  </g>`,
+
+  // many fine grooves rather than a few deep ones
+  millerighe: () => `<g transform="rotate(-6 50 50)">
+    <path d="M26 22 L26 78 A24 7 0 0 0 74 78 L74 22 Z" fill="${F}" stroke="${L}" stroke-width="1.6"/>
+    ${Array.from({ length: 11 }, (_, i) => `<line x1="${28 + i * 4.4}" y1="26" x2="${28 + i * 4.4}" y2="79" stroke="${L}" stroke-width=".7" opacity=".45"/>`).join('')}
+    <ellipse cx="50" cy="22" rx="24" ry="7" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.6"/>
+  </g>`,
+
+  // a narrow ridged tube with a gentle bend: sedani, sedanini
+  sedani: () => `<path d="M30 84 Q22 50 44 16" fill="none" stroke="${F}" stroke-width="20" stroke-linecap="round"/>
+    <path d="M30 84 Q22 50 44 16" fill="none" stroke="${L}" stroke-width="1.3" opacity=".45"/>
+    ${[-6, 0, 6].map(o => `<path d="M${30 + o} 82 Q${22 + o} 50 ${44 + o} 18" fill="none" stroke="${L}" stroke-width=".9" opacity=".4"/>`).join('')}
+    <ellipse cx="44" cy="16" rx="10" ry="4" transform="rotate(28 44 16)" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.4"/>`,
+
+  // wide rings cut short, meant to pass for squid
+  calamarata: () => [[32, 34, 20], [68, 52, 18], [38, 74, 16]].map(([x, y, r]) =>
+    `<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r * 0.42}" fill="${F}" stroke="${L}" stroke-width="1.6"/>
+     <ellipse cx="${x}" cy="${y}" rx="${r * 0.6}" ry="${r * 0.24}" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.3"/>`).join(''),
+
+  // a three-sided quill
+  trenne: () => `<g transform="rotate(-20 50 52)">
+    <path d="M30 24 L30 76 L50 88 L70 76 L70 32 L50 20 Z" fill="${F}" stroke="${L}" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M30 24 L50 36 L70 32" fill="none" stroke="${L}" stroke-width="1.3"/>
+    <line x1="50" y1="36" x2="50" y2="88" stroke="${L}" stroke-width="1" opacity=".5"/>
+    <path d="M30 24 L50 12 L70 20 L70 32 L50 20 Z" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.5" stroke-linejoin="round"/>
+  </g>`,
   ziti: () => tube(34, 10, 32, 80, false, 6),
   paccheri: () => tube(16, 30, 68, 42, false, -4),
   cannelloni: () => tube(24, 12, 52, 76, false, 0),
