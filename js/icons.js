@@ -464,6 +464,91 @@ const ICONS = {
     `<circle cx="${x}" cy="${y}" r="${r}" fill="${F}" stroke="${L}" stroke-width="1.6"/>
      <circle cx="${x}" cy="${y}" r="${r * 0.5}" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.4"/>`).join(''),
 
+  'ravioli-small': () => [[30, 30], [66, 40], [36, 68], [70, 74]].map(([x, y]) => {
+    const w = 22;
+    return `<rect x="${x - w / 2}" y="${y - w / 2}" width="${w}" height="${w}" rx="2" fill="${F}" stroke="${L}" stroke-width="1.3"/>
+      <ellipse cx="${x}" cy="${y}" rx="6" ry="5" fill="var(--pasta-hole)" opacity=".75"/>`;
+  }).join(''),
+
+  // a wrapped sweet with twisted tails
+  caramelle: () => [[34, 36], [64, 68]].map(([x, y], i) =>
+    `<g transform="rotate(${i ? 18 : -14} ${x} ${y})">
+      <rect x="${x - 16}" y="${y - 13}" width="32" height="26" rx="9" fill="${F}" stroke="${L}" stroke-width="1.5"/>
+      <path d="M${x - 16} ${y - 6} L${x - 28} ${y - 13} L${x - 25} ${y} L${x - 28} ${y + 13} L${x - 16} ${y + 6} Z" fill="${F}" stroke="${L}" stroke-width="1.3" stroke-linejoin="round"/>
+      <path d="M${x + 16} ${y - 6} L${x + 28} ${y - 13} L${x + 25} ${y} L${x + 28} ${y + 13} L${x + 16} ${y + 6} Z" fill="${F}" stroke="${L}" stroke-width="1.3" stroke-linejoin="round"/>
+    </g>`).join(''),
+
+  // gathered bundles
+  purse: () => [[34, 40, 20], [66, 70, 17]].map(([x, y, r]) =>
+    `<path d="M${x - r} ${y} Q${x - r} ${y + r * 1.3} ${x} ${y + r * 1.3} Q${x + r} ${y + r * 1.3} ${x + r} ${y} Z" fill="${F}" stroke="${L}" stroke-width="1.5"/>
+     <path d="M${x - r} ${y} Q${x - r * 0.5} ${y - r * 0.5} ${x - r * 0.7} ${y - r}
+        M${x - r * 0.3} ${y - r * 0.1} L${x - r * 0.2} ${y - r * 1.1}
+        M${x + r * 0.3} ${y - r * 0.1} L${x + r * 0.4} ${y - r * 1.05}
+        M${x + r} ${y} Q${x + r * 0.6} ${y - r * 0.5} ${x + r * 0.8} ${y - r}"
+        fill="none" stroke="${L}" stroke-width="1.4" stroke-linecap="round"/>
+     <ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r * 0.24}" fill="${F}" stroke="${L}" stroke-width="1.4"/>`).join(''),
+
+  'triangle-filled': () => [[32, 32, 22], [66, 54, 19], [36, 76, 17]].map(([x, y, r]) =>
+    `<path d="M${x} ${y - r} L${x + r} ${y + r * 0.7} L${x - r} ${y + r * 0.7} Z" fill="${F}" stroke="${L}" stroke-width="1.5" stroke-linejoin="round"/>
+     <ellipse cx="${x}" cy="${y + r * 0.15}" rx="${r * 0.4}" ry="${r * 0.3}" fill="var(--pasta-hole)" opacity=".7"/>`).join(''),
+
+  pansoti: () => [[34, 34, 24], [66, 68, 20]].map(([x, y, r]) =>
+    `<path d="M${x - r} ${y - r * 0.6} L${x + r} ${y - r * 0.6} L${x} ${y + r * 0.8} Z" fill="${F}" stroke="${L}" stroke-width="1.5" stroke-linejoin="round"/>
+     ${Array.from({ length: 7 }, (_, i) => `<circle cx="${x - r + i * (r / 3)}" cy="${y - r * 0.6}" r="2.4" fill="${F}" stroke="${L}" stroke-width="1"/>`).join('')}
+     <circle cx="${x}" cy="${y - r * 0.05}" r="${r * 0.28}" fill="var(--pasta-hole)" opacity=".7"/>`).join(''),
+
+  // a folded case pinched at both ends
+  casoncelli: () => [[32, 34], [66, 66]].map(([x, y], i) =>
+    `<g transform="rotate(${i ? 14 : -12} ${x} ${y})">
+      <path d="M${x - 26} ${y} Q${x - 14} ${y - 18} ${x} ${y - 14} Q${x + 14} ${y - 18} ${x + 26} ${y}
+              Q${x + 14} ${y + 18} ${x} ${y + 14} Q${x - 14} ${y + 18} ${x - 26} ${y} Z"
+        fill="${F}" stroke="${L}" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M${x} ${y - 14} L${x} ${y + 14}" stroke="${L}" stroke-width="1.2" opacity=".5"/>
+    </g>`).join(''),
+
+  anolini: () => [[30, 32, 17], [66, 46, 15], [38, 72, 16]].map(([x, y, r]) =>
+    `<circle cx="${x}" cy="${y}" r="${r}" fill="${F}" stroke="${L}" stroke-width="1.4"/>
+     ${Array.from({ length: 12 }, (_, i) => {
+        const a = (i * 30) * Math.PI / 180;
+        return `<circle cx="${x + r * Math.cos(a)}" cy="${y + r * Math.sin(a)}" r="2.1" fill="${F}" stroke="${L}" stroke-width=".9"/>`;
+      }).join('')}
+     <circle cx="${x}" cy="${y}" r="${r * 0.42}" fill="var(--pasta-hole)" opacity=".75"/>`).join(''),
+
+  discs: () => [[32, 34, 19], [66, 52, 17], [38, 74, 16]].map(([x, y, r]) =>
+    `<circle cx="${x}" cy="${y}" r="${r}" fill="${F}" stroke="${L}" stroke-width="1.5"/>
+     <circle cx="${x}" cy="${y}" r="${r * 0.55}" fill="none" stroke="${L}" stroke-width="1" opacity=".4"/>`).join(''),
+
+  balls: () => [[34, 36, 21], [68, 56, 18], [38, 76, 16]].map(([x, y, r]) =>
+    `<circle cx="${x}" cy="${y}" r="${r}" fill="${F}" stroke="${L}" stroke-width="1.5"/>
+     ${[0, 1, 2, 3, 4].map(i => `<circle cx="${x - r * 0.5 + (i * r) / 3}" cy="${y - r * 0.3 + (i % 2) * r * 0.5}" r="2" fill="${L}" opacity=".3"/>`).join('')}`).join(''),
+
+  // a half-tube with a ruffle down each side
+  cascatelli: () => `<g transform="rotate(-10 50 50)">
+    <path d="M38 14 Q30 50 38 86 Q50 90 62 86 Q70 50 62 14 Q50 10 38 14 Z" fill="${F}" stroke="${L}" stroke-width="1.6"/>
+    ${[0, 1, 2, 3, 4, 5].map(i => {
+      const y = 20 + i * 12;
+      return `<path d="M36 ${y} Q24 ${y + 4} 22 ${y + 10} Q32 ${y + 8} 36 ${y + 12}" fill="${F}" stroke="${L}" stroke-width="1.2"/>
+              <path d="M64 ${y} Q76 ${y + 4} 78 ${y + 10} Q68 ${y + 8} 64 ${y + 12}" fill="${F}" stroke="${L}" stroke-width="1.2"/>`;
+    }).join('')}
+    <path d="M44 16 Q40 50 44 84" fill="none" stroke="${L}" stroke-width="1" opacity=".45"/>
+  </g>`,
+
+  // a fluted barrel
+  zucca: () => `<ellipse cx="50" cy="52" rx="34" ry="30" fill="${F}" stroke="${L}" stroke-width="1.7"/>
+    ${[-22, -11, 0, 11, 22].map(o => `<path d="M${50 + o} 24 Q${50 + o * 1.35} 52 ${50 + o} 80" fill="none" stroke="${L}" stroke-width="1.2" opacity=".55"/>`).join('')}
+    <ellipse cx="50" cy="26" rx="12" ry="4.5" fill="var(--pasta-hole)" stroke="${L}" stroke-width="1.4"/>`,
+
+  // a cone with a ribbon wound round it
+  trottole: () => `<path d="M50 16 L70 62 Q50 74 30 62 Z" fill="${F}" stroke="${L}" stroke-width="1.6" stroke-linejoin="round"/>
+    ${[0, 1, 2, 3].map(i => `<path d="M${34 + i * 2.5} ${34 + i * 10} Q50 ${42 + i * 10} ${66 - i * 2.5} ${34 + i * 10}" fill="none" stroke="${L}" stroke-width="1.3" opacity=".6"/>`).join('')}
+    <path d="M50 74 L50 88" stroke="${F}" stroke-width="7" stroke-linecap="round"/>
+    <path d="M50 74 L50 88" stroke="${L}" stroke-width="1.2" opacity=".5"/>`,
+
+  // a short hollow spiral
+  'fusilli-bucati': () => `<path d="${helix(50, 16, 84, 19, 4)}" fill="none" stroke="${F}" stroke-width="15" stroke-linecap="round"/>
+    <path d="${helix(50, 16, 84, 19, 4)}" fill="none" stroke="var(--pasta-hole)" stroke-width="5" stroke-linecap="round" opacity=".85"/>
+    <path d="${helix(50, 16, 84, 19, 4)}" fill="none" stroke="${L}" stroke-width="1.2" opacity=".5"/>`,
+
   ravioli: () => `<path d="M18 18 L82 18 L82 82 L18 82 Z" fill="${F}" stroke="${L}" stroke-width="1.7"/>
     ${Array.from({ length: 32 }, (_, i) => {
       const per = i / 32;
