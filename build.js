@@ -85,8 +85,8 @@ ${main}
 
 const DECIDE_MAIN = `<main class="wrap">
   <section class="hero">
-    <p class="eyebrow">Today's answer</p>
-    <h1>Here's your pasta.</h1>
+    <p class="eyebrow">Pasta of the day</p>
+    <h1>Today, you're making this.</h1>
   </section>
 
   <article class="result" id="result"></article>
@@ -94,20 +94,20 @@ const DECIDE_MAIN = `<main class="wrap">
   <div class="reroll">
     <button class="big-btn" id="spin">
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
-      Not feeling this shape? Try another
+      Not feeling it? Show me another
     </button>
     <p class="spinner-note" id="note"></p>
   </div>
 
   <section class="mood">
-    <p class="mood-label">Or steer it — what are you in the mood for?</p>
+    <p class="mood-label">Or go looking — what are you in the mood for?</p>
     <div class="filters" id="sauceFilters"></div>
   </section>
 </main>`;
 
 write('index.html', page({
   title: 'What The Fusilli',
-  description: `Can't decide what pasta to make? This picks a shape for you, from ${PASTA.length} of them, and tells you what to serve it with.`,
+  description: `One pasta shape a day, chosen for you from ${PASTA.length} of them, with what to serve it with and how it's made.`,
   nav: 'decide',
   main: DECIDE_MAIN,
   script: 'initDecider();',

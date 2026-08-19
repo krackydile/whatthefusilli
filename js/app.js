@@ -15,9 +15,30 @@ function metaRow(p) {
 
 /* ---------------- decider ---------------- */
 
+function gcd(a, b) { while (b) { const t = b; b = a % b; a = t; } return a; }
+
+/* The pasta of the day. Everyone gets the same shape on the same date, and it
+   holds all day no matter how often you reload.
+
+   Stepping through the list by a number coprime with its length visits every
+   shape exactly once before any repeat — so the site works through all 49 over
+   49 days rather than showing the same one twice in a week, which is what a
+   plain hash-the-date would do. */
+function pastaOfTheDay(list, when) {
+  const d = when || new Date();
+  const day = Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000);
+  const n = list.length;
+  const step = [23, 17, 13, 11, 29, 31, 37, 41, 43, 47, 1].find(k => gcd(k, n) === 1);
+  return list[((day * step) % n + n) % n];
+}
+
 function initDecider() {
   const wrap = document.getElementById('sauceFilters');
+  const note = document.getElementById('note');
+  const result = document.getElementById('result');
   const chosen = new Set();
+  const todays = pastaOfTheDay(PASTA);
+  let showing = null;
 
   wrap.innerHTML = Object.entries(SAUCE_TAGS)
     .map(([k, v]) => `<button class="chip" data-tag="${k}" aria-pressed="false">${esc(v)}</button>`)
@@ -30,11 +51,8 @@ function initDecider() {
     if (chosen.has(tag)) { chosen.delete(tag); btn.setAttribute('aria-pressed', 'false'); }
     else { chosen.add(tag); btn.setAttribute('aria-pressed', 'true'); }
     updateNote();
+    show(randomFrom(pool()), false, false);
   });
-
-  const note = document.getElementById('note');
-  const result = document.getElementById('result');
-  let last = null;
 
   function pool() {
     if (!chosen.size) return PASTA;
@@ -46,25 +64,37 @@ function initDecider() {
     note.textContent = chosen.size
       ? `${n} shape${n === 1 ? '' : 's'} match what you're after.`
       : '';
-    pick(false);
   }
 
-  function pick(scroll) {
-    let list = pool();
-    if (list.length > 1 && last) {
-      const without = list.filter(p => p.id !== last);
-      if (without.length) list = without;
+  function randomFrom(list) {
+    let candidates = list;
+    if (list.length > 1 && showing) {
+      const without = list.filter(p => p.id !== showing.id);
+      if (without.length) candidates = without;
     }
-    const p = list[Math.floor(Math.random() * list.length)];
+    return candidates[Math.floor(Math.random() * candidates.length)];
+  }
+
+  function backToToday() {
+    chosen.clear();
+    wrap.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', 'false'));
+    updateNote();
+    show(todays, true, false);
+  }
+
+  function show(p, isToday, scroll) {
     if (!p) { result.innerHTML = ''; result.classList.remove('show'); return; }
-    last = p.id;
+    showing = p;
+
+    const dateLabel = new Date().toLocaleDateString(undefined,
+      { weekday: 'long', day: 'numeric', month: 'long' });
 
     result.classList.remove('show');
     result.innerHTML = `
       <div class="result-top">
         <div class="art">${pastaSVG(p.icon)}</div>
         <div>
-          <p class="eyebrow">Today you're having</p>
+          <p class="eyebrow">${isToday ? esc(dateLabel) : 'Just browsing'}</p>
           <h2>${esc(p.name)}</h2>
           <p class="pron">${esc(p.pron)} · ${esc(p.meaning)}</p>
         </div>
@@ -75,14 +105,21 @@ function initDecider() {
         <p style="margin-top:18px">
           <a href="${shapeHref(p.id)}">Read how ${esc(p.name.split(' /')[0])} is made →</a>
         </p>
+        ${isToday ? '' : `<p style="margin-top:10px">
+          <a href="#" id="back-to-today">← Back to today's pasta</a>
+        </p>`}
       </div>`;
     void result.offsetWidth;
     result.classList.add('show');
+
+    const back = document.getElementById('back-to-today');
+    if (back) back.addEventListener('click', e => { e.preventDefault(); backToToday(); });
+
     if (scroll) result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  document.getElementById('spin').addEventListener('click', () => pick(true));
-  pick(false);
+  document.getElementById('spin').addEventListener('click', () => show(randomFrom(pool()), false, true));
+  show(todays, true, false);
 }
 
 /* ---------------- browse ---------------- */
