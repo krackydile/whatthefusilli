@@ -38,6 +38,18 @@ const { PASTA } = sandbox;
 const FAVICON = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍝</text></svg>";
 const MARK = `<svg viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="var(--accent)" stroke-width="9" stroke-linecap="round"><path d="M22 12v76M50 12v76M78 12v76"/></g></svg>`;
 
+// Google Analytics. Added to every generated page.
+const GTAG_ID = 'G-J6QYCKQXYK';
+const GTAG = `<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=${GTAG_ID}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '${GTAG_ID}');
+</script>`;
+
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 // Asset URLs carry a hash of their contents, so a changed file is a changed URL
@@ -65,6 +77,7 @@ function page({ title, description, nav, main, script, footer }) {
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="${CSS_URL}">
 <link rel="icon" href="${FAVICON}">
+${GTAG}
 </head>
 <body>
 
